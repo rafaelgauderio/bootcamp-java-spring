@@ -1,6 +1,7 @@
 package com.rafaeldeluca.catalogo.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,14 @@ public class CategoryService {
 		 */
 		
 
+	}
+	
+	@Transactional(readOnly = true)
+	public CategoryDTO findById(Long id) {		
+		//Optinal evita trabalhar com o valor null
+		Optional<Category> object = repository.findById(id);
+		Category entity = object.get();
+		return new CategoryDTO(entity);
 	}
 
 }
