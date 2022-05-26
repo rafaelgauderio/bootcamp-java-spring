@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rafaeldeluca.catalogo.dto.CategoryDTO;
-import com.rafaeldeluca.catalogo.entities.Category;
 import com.rafaeldeluca.catalogo.services.CategoryService;
 
 @RestController

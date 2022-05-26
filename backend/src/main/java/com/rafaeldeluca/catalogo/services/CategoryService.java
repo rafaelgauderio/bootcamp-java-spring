@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.rafaeldeluca.catalogo.dto.CategoryDTO;
 import com.rafaeldeluca.catalogo.entities.Category;
 import com.rafaeldeluca.catalogo.repositories.CategoryRepository;
+import com.rafaeldeluca.catalogo.services.exceptions.EntityNotFoundException;
 
 @Service
 public class CategoryService {
@@ -27,15 +28,13 @@ public class CategoryService {
 		 * List<CategoryDTO> listDTO = new ArrayList<>(); for(Category categoria : list)
 		 * { listDTO.add(new CategoryDTO(categoria)); }
 		 */
-		
-
 	}
 	
 	@Transactional(readOnly = true)
 	public CategoryDTO findById(Long id) {		
-		//Optinal evita trabalhar com o valor null
+		
 		Optional<Category> object = repository.findById(id);
-		Category entity = object.get();
+		Category entity = object.orElseThrow(() -> new EntityNotFoundException("Entidade não foi encontrada!"));
 		return new CategoryDTO(entity);
 	}
 
