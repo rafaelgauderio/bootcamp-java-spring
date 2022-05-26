@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.rafaeldeluca.catalogo.dto.CategoryDTO;
 import com.rafaeldeluca.catalogo.entities.Category;
 import com.rafaeldeluca.catalogo.repositories.CategoryRepository;
-import com.rafaeldeluca.catalogo.services.exceptions.EntityNotFoundException;
+import com.rafaeldeluca.catalogo.services.exceptions.ResourceNotFoundException;
+
 
 @Service
 public class CategoryService {
@@ -39,15 +42,32 @@ public class CategoryService {
 	public CategoryDTO findById(Long id) {		
 		
 		Optional<Category> object = repository.findById(id);
-		Category entity = object.orElseThrow(() -> new EntityNotFoundException("Entidade não foi encontrada!"));
+		Category entity = object.orElseThrow(() -> new ResourceNotFoundException("Entidade não foi encontrada!"));
 		return new CategoryDTO(entity);
 	}
 
+	@Transactional
 	public CategoryDTO insert(CategoryDTO dto) {
 		Category entity = new Category();
 		entity.setName(dto.getName());
 		entity = repository.save(entity);
 		return new CategoryDTO(entity);
+	}
+	
+	@Transactional
+	public CategoryDTO update(Long id, CategoryDTO dto) {
+		//não toca no banco de dados, instancia um objeto provisório com o id informado
+		//só movimenta o banco de dados quando for dar o update no banco
+		try {
+			Category entity = repository.getOne(id);
+			entity.setName(dto.getName());
+			entity = repository.save(entity);
+			return new CategoryDTO(entity);
+		} catch (EntityNotFoundException error) {
+			throw new ResourceNotFoundException("Id dessa categoria não foi encontrado " + id);
+		}		
+		
+		
 	}	
 
 }
