@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.rafaeldeluca.catalogo.dto.CategoryDTO;
 import com.rafaeldeluca.catalogo.entities.Category;
 import com.rafaeldeluca.catalogo.repositories.CategoryRepository;
+import com.rafaeldeluca.catalogo.services.exceptions.DataBaseException;
 import com.rafaeldeluca.catalogo.services.exceptions.ResourceNotFoundException;
 
 
@@ -68,6 +71,21 @@ public class CategoryService {
 		}		
 		
 		
+	}
+	//Não pode deletar um categoria que já tem produto cadastrado
+	//erro de integridade referencial
+	public void delete(Long id) {
+		
+		try {
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException erro) {
+			throw new ResourceNotFoundException("Id não encontrado " + id);
+		} catch (DataIntegrityViolationException erro) {
+			throw new DataBaseException("Violação de integridade de banco de dados!");
+		}
+		
+		
+				
 	}	
 
 }
