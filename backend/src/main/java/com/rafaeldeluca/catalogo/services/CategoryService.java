@@ -9,6 +9,9 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,14 +29,10 @@ public class CategoryService {
 	private CategoryRepository repository;
 
 	@Transactional(readOnly = true)
-	public List<CategoryDTO> findAll() {
-		List<Category> list = repository.findAll();
-		// transforma para stream e depois volta para lista
-		return list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
-		/*
-		 * List<CategoryDTO> listDTO = new ArrayList<>(); for(Category categoria : list)
-		 * { listDTO.add(new CategoryDTO(categoria)); }
-		 */
+	public Page<CategoryDTO> findAllPaged(PageRequest pageRequest) {
+		Page <Category> paginatedList = repository.findAll(pageRequest);		
+		return paginatedList.map(x-> new CategoryDTO(x));
+		
 	}
 	
 	@Transactional(readOnly = true)
