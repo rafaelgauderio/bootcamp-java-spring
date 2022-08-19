@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.rafaeldeluca.catalogo.entities.Product;
+import com.rafaeldeluca.catalogo.tests.Factory;
 
 @DataJpaTest
 public class ProductRepositoryTests {
@@ -19,6 +20,7 @@ public class ProductRepositoryTests {
 	
 	private Long existId;
 	private Long nonExistId;
+	private Long countTotalProducts = 25L;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -45,6 +47,21 @@ public class ProductRepositoryTests {
 			repository.deleteById(nonExistId);
 		});
 		
+	}
+	
+	@Test
+	public void saveShouldPersistWithAutoincrementProductWhenIdIsNull () {
+		Product product = Factory.createProduct();
+		product.setId(null);
+		
+		//tem que ser null o id antes de salvar no banco
+		Assertions.assertNull(product.getId());
+		//tem que salvar o produto no banco e retorna o id
+		product = repository.save(product);
+		//depois de inserir no banco o id não pode ser null
+		Assertions.assertNotNull(product.getId());
+		//vefificar se o produto é igual a 26, pois tinha 25 no sed inicial
+		Assertions.assertEquals(this.countTotalProducts + 1, product.getId());		
 	}	
 
 }
