@@ -50,6 +50,26 @@ public class ProductRepositoryTests {
 	}
 	
 	@Test
+	public void findByIdShouldReturnOptionalNotEmptyWhenIdExists () {
+		repository.findById(existId);
+		
+		Optional<Product> optinal = repository.findById(existId);
+		
+		Assertions.assertFalse(optinal.isEmpty());
+		Assertions.assertTrue(optinal.isPresent());
+	}
+	
+	@Test
+	public void findByIdShouldReturnOptinalEmptyWhenIdNotExists() {
+repository.findById(nonExistId);
+		
+		Optional<Product> optinal = repository.findById(nonExistId);
+		
+		Assertions.assertFalse(optinal.isPresent());
+		Assertions.assertTrue(optinal.isEmpty());
+	}
+	
+	@Test
 	public void saveShouldPersistWithAutoincrementProductWhenIdIsNull () {
 		Product product = Factory.createProduct();
 		product.setId(null);
@@ -62,6 +82,7 @@ public class ProductRepositoryTests {
 		Assertions.assertNotNull(product.getId());
 		//vefificar se o produto é igual a 26, pois tinha 25 no sed inicial
 		Assertions.assertEquals(this.countTotalProducts + 1, product.getId());		
-	}	
+	}
+	
 
 }
