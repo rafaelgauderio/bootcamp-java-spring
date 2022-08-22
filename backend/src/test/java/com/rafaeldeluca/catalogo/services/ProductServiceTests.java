@@ -12,10 +12,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.rafaeldeluca.catalogo.repositories.ProductRepository;
+import com.rafaeldeluca.catalogo.services.exceptions.DataBaseException;
 import com.rafaeldeluca.catalogo.services.exceptions.ResourceNotFoundException;
 
 @ExtendWith(SpringExtension.class)
@@ -36,13 +38,17 @@ public class ProductServiceTests {
 	
 	private long existingId;
 	private long nonExistingId;
+	private long integrityId;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		//id que existe no projeto vai do 1L até o 25L
 		this.existingId = 2L;
 		this.nonExistingId = 50L;
-		
+		this.integrityId = 5l;
+		//id que não pode ser deletado que vai der erro de integridade de banco de dados. Porque deletenou um produto que tem venda
+		// ou deletou um categoria que tem produto cadastrado.
+				
 		
 		//comportamento simulado para não fazer nada quando chamar um médoto deleteByid
 		Mockito.doNothing().when(repository).deleteById(existingId);
@@ -50,7 +56,10 @@ public class ProductServiceTests {
 		//comportamento para um Id que não existe
 		Mockito.doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(nonExistingId);
 		doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(nonExistingId);
-	}
+		
+		Mockito.doThrow(DataIntegrityViolationException.class).when(repository).deleteById(integrityId);
+		doThrow(DataIntegrityViolationException.class).when(repository).deleteById(integrityId);
+		}
 	
 	@Test
 	public void deleteShouldDoNothingWhenIdExists() {
@@ -74,6 +83,15 @@ public class ProductServiceTests {
 		
 		Mockito.verify(repository, Mockito.times(1)).deleteById(nonExistingId);
 		verify(repository,times(1)).deleteById(nonExistingId);
+	}
+	
+	@Test
+	public void delteShouldThrowResouceNotFoundExceptionWhenIntegrityId() {
+		Assertions.assertThrows(DataBaseException.class, () -> {
+			service.delete(integrityId);
+			});
+		
+		Mockito.verify(repository, Mockito.times(1)).deleteById(integrityId);
 	}
 
 }
