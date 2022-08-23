@@ -53,6 +53,7 @@ public class ProductServiceTests {
 	private PageImpl<Product> page; 	//tipo concreto que representa uma página de dados
 	private Product product;
 	private Product productReturn;
+	private ProductDTO productDTO;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -128,6 +129,27 @@ public class ProductServiceTests {
 		
 		Assertions.assertNotNull(pageOfProducts);
 		Mockito.verify(repository, Mockito.times(1)).findAll(pageable);	
+	}
+	
+	@Test
+	public void findByIdShouldRetunrProductDTOWhenIdExist() {
+		
+		//productDTO = new ProductDTO(product, product.getCategories());
+		productDTO = service.findById(existingId);
+		
+		Assertions.assertNotNull(productDTO);
+		Mockito.verify(repository,Mockito.times(1)).findById(existingId);		
+		
+	}
+	
+	@Test
+	public void findByIdShouldThrowResourceNotFoundExceptionWhenNonExistId() {
+		
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+			service.findById(nonExistingId);
+		});
+		Mockito.verify(repository,Mockito.times(1)).findById(nonExistingId);	
+		
 	}
 
 }
