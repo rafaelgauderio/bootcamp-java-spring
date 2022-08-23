@@ -187,5 +187,15 @@ public class ProductServiceTests {
 		
 	}
 	
+	@Test
+	public void insertShouldAutoincrementProductWhenIdIsNull () {		
+		
+		productDTO.setId(null);		
+		Assertions.assertNull(productDTO.getId());	
+		
+		ProductDTO result  = service.insert(productDTO);	
+		Assertions.assertNotNull(result.getId());	
+	}
+
 
 }
