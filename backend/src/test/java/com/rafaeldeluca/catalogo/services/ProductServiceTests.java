@@ -75,6 +75,7 @@ public class ProductServiceTests {
 		product = Factory.createProduct();
 		productReturn = Factory.createProduct();
 		category = Factory.createCategory();
+		productDTO = Factory.createProductDTO();
 		page = new PageImpl<>(List.of(product));
 		
 		//comportamento simulado para não fazer nada quando chamar um médoto deleteByid
@@ -170,14 +171,21 @@ public class ProductServiceTests {
 		
 	}
 	
-	@Test void updateShouldReturnProductDTOWhenIdExist() {
+	@Test void updateShouldReturnProductDTOWhenIdExist() {		
 		
-		productDTO = Factory.createProductDTO();
 		ProductDTO result = service.update(existingId, productDTO);
 		Assertions.assertNotNull(result);
 		
 	}
 	
+	@Test
+	public void updateShouldThrowResourceNotFoundExceptionWhenNonExistId() {		
+		
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+			service.update(nonExistingId, productDTO);
+		});		
+		
+	}
 	
 
 }
