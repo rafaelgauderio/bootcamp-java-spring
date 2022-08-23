@@ -8,6 +8,8 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +27,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.rafaeldeluca.catalogo.dto.ProductDTO;
+import com.rafaeldeluca.catalogo.entities.Category;
 import com.rafaeldeluca.catalogo.entities.Product;
+import com.rafaeldeluca.catalogo.repositories.CategoryRepository;
 import com.rafaeldeluca.catalogo.repositories.ProductRepository;
 import com.rafaeldeluca.catalogo.services.exceptions.DataBaseException;
 import com.rafaeldeluca.catalogo.services.exceptions.ResourceNotFoundException;
@@ -40,12 +44,16 @@ public class ProductServiceTests {
 	// Se carregar outros componentes, não será um teste de unidade, será um teste de integração.
 	// service não vai ter acesso ao banco de dados real para fazer os testes
 	// Ao criar um Mock é necessário configurar o comportamento simulado desse mock
+	// A classe ProductService vai ter que mocar o comportamento da classe ProductRepository
 	
 	@InjectMocks
 	private ProductService service;
 	
 	@Mock
 	private ProductRepository repository;
+	
+	@Mock
+	private CategoryRepository categoryRepository;
 	
 	private long existingId;
 	private long nonExistingId;
@@ -54,6 +62,7 @@ public class ProductServiceTests {
 	private Product product;
 	private Product productReturn;
 	private ProductDTO productDTO;
+	private Category category;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -65,6 +74,7 @@ public class ProductServiceTests {
 		// ou deletou um categoria que tem produto cadastrado.		
 		product = Factory.createProduct();
 		productReturn = Factory.createProduct();
+		category = Factory.createCategory();
 		page = new PageImpl<>(List.of(product));
 		
 		//comportamento simulado para não fazer nada quando chamar um médoto deleteByid
@@ -86,8 +96,16 @@ public class ProductServiceTests {
 		Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(productReturn));
 		//findById com id que existe retorna um Optinal vazio
 		Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
+		
+		Mockito.when(repository.getOne(existingId)).thenReturn(productReturn);		
+		Mockito.when(repository.getOne(nonExistingId)).thenThrow(EntityNotFoundException.class);
+		
+		Mockito.when(categoryRepository.getOne(existingId)).thenReturn(category);
+		Mockito.when(categoryRepository.getOne(nonExistingId)).thenThrow(EntityNotFoundException.class);		
+		
 		}
 	
+		
 	@Test
 	public void deleteShouldDoNothingWhenIdExists() {
 		/* a camada de serviço apenas vai chamar o método deleteByiD da camada de repository.
@@ -151,5 +169,15 @@ public class ProductServiceTests {
 		Mockito.verify(repository,Mockito.times(1)).findById(nonExistingId);	
 		
 	}
+	
+	@Test void updateShouldReturnProductDTOWhenIdExist() {
+		
+		productDTO = Factory.createProductDTO();
+		ProductDTO result = service.update(existingId, productDTO);
+		Assertions.assertNotNull(result);
+		
+	}
+	
+	
 
 }
