@@ -5,20 +5,28 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.rafaeldeluca.catalogo.entities.Product;
 import com.rafaeldeluca.catalogo.repositories.ProductRepository;
 import com.rafaeldeluca.catalogo.services.exceptions.DataBaseException;
 import com.rafaeldeluca.catalogo.services.exceptions.ResourceNotFoundException;
+import com.rafaeldeluca.catalogo.tests.Factory;
 
 @ExtendWith(SpringExtension.class)
 public class ProductServiceTests {
@@ -39,6 +47,9 @@ public class ProductServiceTests {
 	private long existingId;
 	private long nonExistingId;
 	private long integrityId;
+	private PageImpl<Product> page; 	//tipo concreto que representa uma página de dados
+	private Product product;
+	private Product productReturn;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -46,9 +57,11 @@ public class ProductServiceTests {
 		this.existingId = 2L;
 		this.nonExistingId = 50L;
 		this.integrityId = 5l;
-		//id que não pode ser deletado que vai der erro de integridade de banco de dados. Porque deletenou um produto que tem venda
-		// ou deletou um categoria que tem produto cadastrado.
-				
+		//id que não pode ser deletado que vai der erro de integridade de banco de dados. Porque deletou um produto que tenha venda
+		// ou deletou um categoria que tem produto cadastrado.		
+		product = Factory.createProduct();
+		productReturn = Factory.createProduct();
+		page = new PageImpl<>(List.of(product));
 		
 		//comportamento simulado para não fazer nada quando chamar um médoto deleteByid
 		Mockito.doNothing().when(repository).deleteById(existingId);
@@ -59,6 +72,16 @@ public class ProductServiceTests {
 		
 		Mockito.doThrow(DataIntegrityViolationException.class).when(repository).deleteById(integrityId);
 		doThrow(DataIntegrityViolationException.class).when(repository).deleteById(integrityId);
+		
+		//quando o método não é void, primeira vai ter o when e depois a action		
+		Mockito.when(repository.findAll((Pageable)ArgumentMatchers.any())).thenReturn(page);
+		
+		Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(productReturn);
+		
+		//findById com id que existe retorna um Optinal NÃO vazio
+		Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(productReturn));
+		//findById com id que existe retorna um Optinal vazio
+		Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
 		}
 	
 	@Test
