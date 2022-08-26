@@ -2,6 +2,8 @@ package com.rafaeldeluca.catalogo.resources;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -23,8 +25,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rafaeldeluca.catalogo.dto.ProductDTO;
 import com.rafaeldeluca.catalogo.services.ProductService;
+import com.rafaeldeluca.catalogo.services.exceptions.DataBaseException;
 import com.rafaeldeluca.catalogo.services.exceptions.ResourceNotFoundException;
 import com.rafaeldeluca.catalogo.tests.Factory;
+
+//No Productresource (controller) tem que simular os comportamentos do ProductService
 
 @WebMvcTest(ProductResource.class)
 public class ProductResourceTests {
@@ -41,7 +46,8 @@ public class ProductResourceTests {
 	private ProductDTO productDTO;
 	private PageImpl<ProductDTO> pageImpl; //criando um objeto de pagina completo com PageImpl
 	private Long existId;
-	private Long nonExistId;	
+	private Long nonExistId;
+	private Long dbIntegrityId;
 	
 	//simular o comportamento do service (findAllPage)
 	@BeforeEach
@@ -49,6 +55,7 @@ public class ProductResourceTests {
 		
 		existId = 1L;
 		nonExistId = 50L;
+		dbIntegrityId = 2L;
 		
 		productDTO = Factory.createProductDTO();
 		pageImpl = new PageImpl<>(List.of(productDTO));
@@ -61,6 +68,11 @@ public class ProductResourceTests {
 		//simulando o comportamento do update
 		when(service.update(eq(existId), any())).thenReturn(productDTO);
 		when(service.update(eq(nonExistId), any())).thenThrow(ResourceNotFoundException.class);
+		
+		//simpulando comportamento para o método delete (void)
+		doNothing().when(service).delete(existId);
+		doThrow(ResourceNotFoundException.class).when(service).delete(nonExistId);
+		doThrow(DataBaseException.class).when(service).delete(dbIntegrityId);		
 	}
 	
 	@Test
@@ -134,8 +146,7 @@ public class ProductResourceTests {
 		
 		result.andExpect(status().isNotFound());
 		
-	}
-	
+	}	
 	
 	
 }

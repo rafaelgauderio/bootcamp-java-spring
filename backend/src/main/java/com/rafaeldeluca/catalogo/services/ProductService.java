@@ -76,6 +76,7 @@ public class ProductService {
 		} catch (EmptyResultDataAccessException erro) {
 			throw new ResourceNotFoundException("Id não encontrado " + id);
 		} catch (DataIntegrityViolationException erro) {
+			//objeto está associando com um outro objeto que não pode deleter, da um erro de integração
 			throw new DataBaseException("Violação de integridade de banco de dados!");
 		}	
 				
