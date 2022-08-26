@@ -40,11 +40,10 @@ public class ProductResourceTests {
 		pageImpl = new PageImpl<>(List.of(productDTO));
 		
 		when(service.findAllPaged(any())).thenReturn(pageImpl);		
-		
 	}
 	
 	@Test
-	public void findAllShouldReturnPage() {		
+	public void findAllShouldReturnPage() throws Exception {		
 		//perfom faz um requisição no metodo http get e esperar que a resposta seja ok
 		try {
 			mockMvc.perform(get("/products")).andExpect(status().isOk());
