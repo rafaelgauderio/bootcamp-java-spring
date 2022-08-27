@@ -5,11 +5,14 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.net.URI;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,9 +22,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rafaeldeluca.catalogo.dto.ProductDTO;
 import com.rafaeldeluca.catalogo.services.ProductService;
@@ -60,8 +71,10 @@ public class ProductResourceTests {
 		productDTO = Factory.createProductDTO();
 		pageImpl = new PageImpl<>(List.of(productDTO));
 		
+		//mocando comportamento fo find All na camada de servico
 		when(service.findAllPaged(any())).thenReturn(pageImpl);
 		
+		//mocando comportanto do find By id na camada de servico
 		when(service.findById(existId)).thenReturn(productDTO);
 		when(service.findById(nonExistId)).thenThrow(ResourceNotFoundException.class);
 		
@@ -72,7 +85,10 @@ public class ProductResourceTests {
 		//simpulando comportamento para o método delete (void)
 		doNothing().when(service).delete(existId);
 		doThrow(ResourceNotFoundException.class).when(service).delete(nonExistId);
-		doThrow(DataBaseException.class).when(service).delete(dbIntegrityId);		
+		doThrow(DataBaseException.class).when(service).delete(dbIntegrityId);
+		
+		//simulando comportamento do insert
+		when(service.insert(any())).thenReturn(productDTO);
 	}
 	
 	@Test
@@ -148,5 +164,54 @@ public class ProductResourceTests {
 		
 	}	
 	
+	
+	@Test
+	public void insertShouldReturnCreatedAndProductDTO () throws Exception {
+		
+		String jsonBody = objectMapper.writeValueAsString(productDTO);
+		
+		ResultActions result = mockMvc.perform(post("/products")
+				.content(jsonBody)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+		
+		result.andExpect(status().isCreated());
+		result.andExpect(jsonPath("$.id").exists());
+		result.andExpect(jsonPath("$.name").exists());
+		result.andExpect(jsonPath("$.description").exists());
+		result.andExpect(jsonPath("$.price").exists());
+		result.andExpect(jsonPath("$.imgURL").exists());
+		
+		
+	}
+	
+	
+	
+	@Test
+	public void deleteShouldReturnNoContentWhenIdExists() throws Exception {
+		
+		ResultActions result = mockMvc.perform(delete("/products/{id}",existId)
+				.accept(MediaType.APPLICATION_JSON));
+		
+		result.andExpect(status().isNoContent());		
+		
+	}
+	
+	@Test
+	public void delteShoulReturnNotFoundWhenIdDoesNotExists () throws Exception {
+		ResultActions result = mockMvc.perform(delete("/products/{id}",nonExistId)
+				.accept(MediaType.APPLICATION_JSON));
+			//http 404
+			result.andExpect(status().isNotFound());
+				
+	}
+	
+	@Test
+	public void deleteShouldReturnDataBaseExceptionWheIdDbIntegrityId () throws Exception {
+		ResultActions result = mockMvc.perform(delete("/products/{id}",dbIntegrityId)
+				.accept(MediaType.APPLICATION_JSON));
+			// http 502
+			result.andExpect(status().isBadGateway());
+	}
 	
 }
