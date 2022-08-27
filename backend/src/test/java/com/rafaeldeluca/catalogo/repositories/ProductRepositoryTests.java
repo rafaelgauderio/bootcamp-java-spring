@@ -51,7 +51,7 @@ public class ProductRepositoryTests {
 	
 	@Test
 	public void findByIdShouldReturnOptionalNotEmptyWhenIdExists () {
-				
+		//tem que retornar um optional não nulo se for com id existente		
 		Optional<Product> optinal = repository.findById(existId);
 		
 		Assertions.assertFalse(optinal.isEmpty());
@@ -60,7 +60,7 @@ public class ProductRepositoryTests {
 	
 	@Test
 	public void findByIdShouldReturnOptinalEmptyWhenIdNotExists() {
-		
+		//tem que retornar um optional não VAZIO se for com id inexistente
 		Optional<Product> optinal = repository.findById(nonExistId);
 		
 		Assertions.assertFalse(optinal.isPresent());

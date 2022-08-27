@@ -174,7 +174,7 @@ public class ProductResourceTests {
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
-		
+		// http 201
 		result.andExpect(status().isCreated());
 		result.andExpect(jsonPath("$.id").exists());
 		result.andExpect(jsonPath("$.name").exists());
@@ -192,7 +192,7 @@ public class ProductResourceTests {
 		
 		ResultActions result = mockMvc.perform(delete("/products/{id}",existId)
 				.accept(MediaType.APPLICATION_JSON));
-		
+		// http 201
 		result.andExpect(status().isNoContent());		
 		
 	}
