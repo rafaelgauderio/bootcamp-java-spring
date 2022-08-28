@@ -181,11 +181,7 @@ public class ProductResourceTests {
 		result.andExpect(jsonPath("$.description").exists());
 		result.andExpect(jsonPath("$.price").exists());
 		result.andExpect(jsonPath("$.imgURL").exists());
-		
-		
-	}
-	
-	
+	}	
 	
 	@Test
 	public void deleteShouldReturnNoContentWhenIdExists() throws Exception {
@@ -194,7 +190,6 @@ public class ProductResourceTests {
 				.accept(MediaType.APPLICATION_JSON));
 		// http 201
 		result.andExpect(status().isNoContent());		
-		
 	}
 	
 	@Test
