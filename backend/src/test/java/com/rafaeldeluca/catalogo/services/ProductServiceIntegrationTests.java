@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.rafaeldeluca.catalogo.repositories.ProductRepository;
+import com.rafaeldeluca.catalogo.services.exceptions.ResourceNotFoundException;
 
 //carregar o contenxto da aplicação
 @SpringBootTest
@@ -26,8 +27,7 @@ public class ProductServiceIntegrationTests {
 	void setUp ( ) throws Exception {
 		existId =2L;
 		nonExistId = 50L; //vai até o 25L
-		countTotalProducts = 25L;
-		
+		countTotalProducts = 25L;		
 	}
 	
 	@Test
@@ -35,10 +35,18 @@ public class ProductServiceIntegrationTests {
 		
 		service.delete(existId);
 		
+		//método count retorna a quantidade total de registro no database
 		Assertions.assertEquals(24, repository.count());
 		Assertions.assertEquals(countTotalProducts - 1, repository.count());
 		Assertions.assertTrue(countTotalProducts - 1 == repository.count() );
 	}
 	
-	//método count retorna a quantidade total de registro no database
+	@Test
+	public void deteleShouldThrowResourceNotFoundExceptionWhenIdDoesntExist() {
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+			service.delete(nonExistId);
+		});
+	}
+	
+	
 }
