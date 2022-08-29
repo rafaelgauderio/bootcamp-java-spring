@@ -1,6 +1,7 @@
 package com.rafaeldeluca.catalogo.resources;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -92,7 +93,7 @@ public class ProductResourceIntegrationTests {
 	}
 	
 	
-	//404 - not Found se passar um Id que não existe no update
+	
 	
 	@Test
 	public void updateShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
@@ -106,9 +107,30 @@ public class ProductResourceIntegrationTests {
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON));
 		
+		//404 - not Found se passar um Id que não existe no update
 		resulted.andExpect(status().isNotFound());	
 		
 	}
+	
+	@Test
+	public void insertShouldReturnCreatedAndProductDTO () throws Exception {
+		
+		ProductDTO productDTO = Factory.createProductDTO();
+		String jsonBody = objectMapper.writeValueAsString(productDTO);
+		
+		ResultActions result = mockMvc.perform(post("/products")
+				.content(jsonBody)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+		
+		result.andExpect(status().isCreated());
+		result.andExpect(jsonPath("$.id").exists());
+		result.andExpect(jsonPath("$.name").exists());
+		result.andExpect(jsonPath("$.description").exists());
+		result.andExpect(jsonPath("$.price").exists());
+		result.andExpect(jsonPath("$.imgURL").exists());
+	}	
+	
 	
 	
 	
