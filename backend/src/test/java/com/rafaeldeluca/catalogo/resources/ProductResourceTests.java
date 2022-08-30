@@ -201,6 +201,7 @@ public class ProductResourceTests {
 				
 	}
 	
+	/* Teste não faz sentido. Não existe erro de integridade relacional para excluir um produto
 	@Test
 	public void deleteShouldReturnDataBaseExceptionWheIdDbIntegrityId () throws Exception {
 		ResultActions result = mockMvc.perform(delete("/products/{id}",dbIntegrityId)
@@ -208,5 +209,6 @@ public class ProductResourceTests {
 			// http 502
 			result.andExpect(status().isBadGateway());
 	}
+	*/
 	
 }

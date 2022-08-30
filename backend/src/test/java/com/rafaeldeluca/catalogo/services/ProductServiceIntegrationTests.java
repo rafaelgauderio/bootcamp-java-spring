@@ -70,7 +70,7 @@ public class ProductServiceIntegrationTests {
 	}
 	
 	@Test
-	public void fillAllPagedShouldReturnEmptyPageWhenPageDoesnotExist() {
+	public void findAllPagedShouldReturnEmptyPageWhenPageDoesnotExist() {
 		
 		//somente tem 2 paginas se a primeira tem 20 e a segunda 5 elementos
 		PageRequest pageResquest = PageRequest.of(5, 20);
