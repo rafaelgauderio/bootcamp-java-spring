@@ -1,6 +1,8 @@
 package com.rafaeldeluca.catalogo.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class User implements Serializable {	
 	
@@ -11,6 +13,8 @@ public class User implements Serializable {
 	private String lastName;
 	private String email;
 	private String password;
+	
+	private Set<Role> roles = new HashSet<Role>();
 	
 	public User () {
 		
@@ -63,6 +67,10 @@ public class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}		
+
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
 	@Override

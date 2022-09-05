@@ -16,8 +16,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.ManyToAny;
-
 @Entity
 @Table(name ="tb_category")
 public class Category implements Serializable {	
@@ -37,6 +35,7 @@ public class Category implements Serializable {
 	private Instant updatedAt;
 	
 	// hashset não aceita repetições
+	@ManyToMany(mappedBy = "categories")
 	private Set<Product> products = new HashSet<>();
 	
 	public Category () {
@@ -84,11 +83,13 @@ public class Category implements Serializable {
 		updatedAt = Instant.now();
 	}	
 	
+	
 	// vai fazer o mapeamento baseado o que está feito na classe Product
-	@ManyToMany(mappedBy = "categories")
+	
 	public Set<Product> getProducts() {
 		return products;
 	}
+
 	
 	// não faz sentido setProducts para uma lista ou coleção set. 
 	// vai adicionando e removendo da coleção os objetos por add ou remove
