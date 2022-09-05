@@ -10,11 +10,13 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rafaeldeluca.catalogo.dto.RoleDTO;
 import com.rafaeldeluca.catalogo.dto.UserDTO;
+import com.rafaeldeluca.catalogo.dto.UserInsertDTO;
 import com.rafaeldeluca.catalogo.entities.Role;
 import com.rafaeldeluca.catalogo.entities.User;
 import com.rafaeldeluca.catalogo.repositories.RoleRepository;
@@ -24,6 +26,9 @@ import com.rafaeldeluca.catalogo.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;	
 	
 	@Autowired
 	private UserRepository repository;
@@ -46,12 +51,14 @@ public class UserService {
 	}
 	
 	@Transactional
-	public UserDTO insert (UserDTO dto) {
+	public UserDTO insert (UserInsertDTO dto) {
 		User entity = new User ();
 		copyDtoToEntity(dto, entity);
+		//converter a string da senha em um hash com o metodo encode e fica salvo no database esse hash da senha
+		entity.setPassword(passwordEncoder.encode(dto.getPassword()));	
 		entity = repository.save(entity);
-		UserDTO userDto = new UserDTO(entity);
-		return userDto;		
+		UserDTO userInsertDto = new UserDTO(entity);
+		return userInsertDto;		
 	}
 	
 	@Transactional
