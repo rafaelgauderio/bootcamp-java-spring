@@ -25,28 +25,26 @@ import com.rafaeldeluca.catalogo.services.CategoryService;
 @RestController
 @RequestMapping(value = "/categories")
 public class CategoryResource {
-	
+
 	@Autowired
 	private CategoryService service;
-	
+
 	//@RequestParam = dado opcional
 	@GetMapping
-	public ResponseEntity<Page <CategoryDTO>> findAll(Pageable pageable
-								
-			) {				
-		
+	public ResponseEntity<Page <CategoryDTO>> findAll(Pageable pageable) {				
+
 		Page<CategoryDTO> paginatedList = service.findAllPaged(pageable);			
 		return ResponseEntity.ok().body(paginatedList);
 	}	
-	
-	
+
+
 	//PathVariable para dado obrigatório
 	@GetMapping(value="/{id}")
 	public ResponseEntity <CategoryDTO> findById(@PathVariable Long id) {		
 		CategoryDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
-	
+
 	//codigo http 200 = success
 	//codigo http 201 = recurso criado
 	@PostMapping
@@ -56,20 +54,20 @@ public class CategoryResource {
 				.buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
-	
+
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @RequestBody CategoryDTO dto) {
 		dto = service.update(id,dto);
 		return ResponseEntity.ok().body(dto);
 	}
-	
+
 	//codigo http 204 = avisa para a aplicação que não tem corpo na resposta
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
-	
-	
+
+
+
 }
