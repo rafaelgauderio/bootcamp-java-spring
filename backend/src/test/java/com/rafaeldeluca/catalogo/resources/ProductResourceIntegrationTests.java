@@ -46,7 +46,9 @@ public class ProductResourceIntegrationTests {
 		resulted.andExpect(jsonPath("$.totalElements").value(countTotalProducts));
 		resulted.andExpect(jsonPath("$.size").value(countTotalProducts));
 		resulted.andExpect(jsonPath("$.totalPages").value(1));
+		resulted.andExpect(jsonPath("$.first").value(true));
 		resulted.andExpect(jsonPath("$.last").value(true));
+		resulted.andExpect(jsonPath("$.content").exists());
 		resulted.andExpect(jsonPath("$.content").exists());
 		resulted.andExpect(jsonPath("$.content[0].name").value("Macbook Pro"));
 		resulted.andExpect(jsonPath("$.content[1].name").value("PC Gamer"));
