@@ -54,8 +54,7 @@ public class ProductResource {
 	public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO dto) {
 		dto = service.update(id,dto);
 		return ResponseEntity.ok().body(dto);
-	}
-	
+	}	
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
