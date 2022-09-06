@@ -2,6 +2,8 @@ package com.rafaeldeluca.catalogo.resources;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,7 +47,7 @@ public class CategoryResource {
 	//codigo http 200 = success
 	//codigo http 201 = recurso criado
 	@PostMapping
-	public ResponseEntity<CategoryDTO> insertCategory(@RequestBody CategoryDTO dto) {
+	public ResponseEntity<CategoryDTO> insertCategory(@Valid @RequestBody CategoryDTO dto) {
 		dto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(dto.getId()).toUri();
@@ -53,7 +55,7 @@ public class CategoryResource {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @RequestBody CategoryDTO dto) {
+	public ResponseEntity<CategoryDTO> updateCategory(@Valid @PathVariable Long id, @RequestBody CategoryDTO dto) {
 		dto = service.update(id,dto);
 		return ResponseEntity.ok().body(dto);
 	}

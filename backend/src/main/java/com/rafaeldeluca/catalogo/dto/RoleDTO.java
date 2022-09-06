@@ -2,6 +2,8 @@ package com.rafaeldeluca.catalogo.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+
 import com.rafaeldeluca.catalogo.entities.Role;
 
 public class RoleDTO implements Serializable {
@@ -9,6 +11,8 @@ public class RoleDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+	
+	@NotBlank(message = "Campo de preenchimento obrigatório")
 	private String authority;
 
 
