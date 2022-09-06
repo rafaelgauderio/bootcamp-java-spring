@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -36,11 +37,23 @@ public class ResourceExceptionHandler {
 	
 	@ExceptionHandler(DataBaseException.class)
 	public ResponseEntity<StandardError> database(DataBaseException error, HttpServletRequest request) {
-		HttpStatus status = HttpStatus.BAD_GATEWAY;
+		HttpStatus status = HttpStatus.BAD_REQUEST;
 		StandardError err = new StandardError();
 		err.setTimestamp(Instant.now());
 		err.setStatus(status.value());
 		err.setError("Exceção de bando de dados");
+		err.setMessage(error.getMessage());
+		err.setPath(request.getRequestURI());		
+		return ResponseEntity.status(status).body(err);
+	}
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<StandardError> validationMethod(MethodArgumentNotValidException error, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY; //codigo 422
+		StandardError err = new StandardError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(status.value());
+		err.setError("Exceção de validação. Não foi possível criar ou atualizar o objeto.");
 		err.setMessage(error.getMessage());
 		err.setPath(request.getRequestURI());		
 		return ResponseEntity.status(status).body(err);
