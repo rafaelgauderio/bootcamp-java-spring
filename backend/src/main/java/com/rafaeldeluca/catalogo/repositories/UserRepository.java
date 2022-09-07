@@ -7,5 +7,8 @@ import com.rafaeldeluca.catalogo.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+	
+	//Método para buscar no database um usuario por email	
+	User findByEmail(String email);	
 
 }
