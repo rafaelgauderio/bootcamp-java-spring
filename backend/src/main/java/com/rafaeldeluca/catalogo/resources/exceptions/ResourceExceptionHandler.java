@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -48,14 +49,21 @@ public class ResourceExceptionHandler {
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<StandardError> validationMethod(MethodArgumentNotValidException error, HttpServletRequest request) {
+	public ResponseEntity<ValidationError> validationMethod(MethodArgumentNotValidException error, HttpServletRequest request) {
 		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY; //codigo 422
-		StandardError err = new StandardError();
+		ValidationError err = new ValidationError();
 		err.setTimestamp(Instant.now());
 		err.setStatus(status.value());
 		err.setError("Exceção de validação. Não foi possível criar ou atualizar o objeto.");
 		err.setMessage(error.getMessage());
-		err.setPath(request.getRequestURI());		
+		err.setPath(request.getRequestURI());	
+		
+		for(FieldError field : error.getBindingResult().getFieldErrors()) {
+			//adicionando os campo de erro e messagem de erro ao etorno do método
+			err.addError(field.getField(), field.getDefaultMessage());
+		}
+		
+		
 		return ResponseEntity.status(status).body(err);
 	}
 	
