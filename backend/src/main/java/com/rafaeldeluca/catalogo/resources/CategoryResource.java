@@ -53,9 +53,10 @@ public class CategoryResource {
 				.buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
-
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<CategoryDTO> updateCategory(@Valid @PathVariable Long id, @RequestBody CategoryDTO dto) {
+	
+	
+	@PutMapping(value = "/{id}")													//@ valid tem que ser na frente do parametro a ser validado
+	public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id,@Valid  @RequestBody CategoryDTO dto) {
 		dto = service.update(id,dto);
 		return ResponseEntity.ok().body(dto);
 	}
