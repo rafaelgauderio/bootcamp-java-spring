@@ -13,33 +13,33 @@ import com.rafaeldeluca.catalogo.entities.Category;
 import com.rafaeldeluca.catalogo.repositories.CategoryRepository;
 import com.rafaeldeluca.catalogo.resources.exceptions.FieldMessage;
 
-public class CategoryCreateValidator implements ConstraintValidator<CategoryCreateValid, CategoryDTO> {
+public class CategoryInsertValidator implements ConstraintValidator<CategoryInsertValid, CategoryDTO> {
 	
 	@Autowired
 	private CategoryRepository repository;
 	
 	@Override
-	public void initialize(CategoryCreateValid annotation) {
+	public void initialize(CategoryInsertValid annotation) {
 	}
 
 	@Override
 	public boolean isValid(CategoryDTO dto, ConstraintValidatorContext context) {
 		
-		List<FieldMessage> list = new ArrayList<>();				
+		List<FieldMessage> lista = new ArrayList<>();	
 		
 		Category category = repository.findByName(dto.getName());	
 		
 		if(category !=null) {
 			
-			list.add(new FieldMessage("Esta categoria já existe no banco de dados. Informe outra.","Categoria"));
+			lista.add(new FieldMessage("Esta categoria já existe no banco de dados. Informe outra.","Categoria"));
 		}
 		
-		for (FieldMessage fieldMessage : list) {
+		for (FieldMessage fieldMessage : lista) {
 			
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(fieldMessage.getMessage()).addPropertyNode(fieldMessage.getFieldName())
 					.addConstraintViolation();
 		}
-		return list.isEmpty();
+		return lista.isEmpty();
 	}
 }

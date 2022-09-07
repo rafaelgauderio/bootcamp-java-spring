@@ -9,11 +9,12 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 
-@Constraint(validatedBy = CategoryCreateValidator.class)
+
+@Constraint(validatedBy = CategoryInsertValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 
-public @interface CategoryCreateValid {
+public @interface CategoryInsertValid {
 	String message() default "Validation error";
 
 	Class<?>[] groups() default {};

@@ -6,9 +6,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.rafaeldeluca.catalogo.entities.Category;
-import com.rafaeldeluca.catalogo.services.validation.CategoryCreateValid;
+import com.rafaeldeluca.catalogo.services.validation.CategoryInsertValid;
 
-@CategoryCreateValid
+@CategoryInsertValid
 public class CategoryDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -49,8 +49,6 @@ public class CategoryDTO implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	
+	}	
 
 }
