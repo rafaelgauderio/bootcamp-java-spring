@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.rafaeldeluca.catalogo.dto.RoleDTO;
 import com.rafaeldeluca.catalogo.dto.UserDTO;
 import com.rafaeldeluca.catalogo.dto.UserInsertDTO;
+import com.rafaeldeluca.catalogo.dto.UserUpdateDTO;
 import com.rafaeldeluca.catalogo.entities.Role;
 import com.rafaeldeluca.catalogo.entities.User;
 import com.rafaeldeluca.catalogo.repositories.RoleRepository;
@@ -62,7 +63,7 @@ public class UserService {
 	}
 	
 	@Transactional
-	public UserDTO update (Long id, UserDTO dto) {
+	public UserDTO update (Long id, UserUpdateDTO dto) {
 		try {
 			User entity = repository.getOne(id); //getOne não vai no database, instância uma entidade monitorada no Jpa 
 			copyDtoToEntity(dto, entity);
