@@ -130,7 +130,7 @@ public class User implements Serializable, UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
 		// transformar cada elemento do tipo role para Granted Authority
-		return this.roles.stream().map(( role) -> new SimpleGrantedAuthority(role.getAuthority()))
+		return this.roles.stream().map((role) -> new SimpleGrantedAuthority(role.getAuthority()))
 				.collect(Collectors.toList());
 		
 	}
