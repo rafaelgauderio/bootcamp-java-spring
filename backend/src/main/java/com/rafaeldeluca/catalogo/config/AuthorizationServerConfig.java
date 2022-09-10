@@ -1,6 +1,7 @@
 package com.rafaeldeluca.catalogo.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +16,16 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter{
+	
+	@Value("${security.oauth2.client.client-id}")
+	private String clientId;
+	
+	@Value("${security.oauth2.client.client-secret}")
+	private String clientSecret;
+	
+	@Value("${jwt.duration}")
+	private Integer jwtDuration;	
+	
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptpasswordEncoder;
@@ -40,11 +51,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		//nesse objeto será definido como vai ser a autenticação e quais os dados do cliente
 		// configurar as credenciais da aplicacao
 		clients.inMemory()
-		.withClient("catalogo")
-		.secret(bcryptpasswordEncoder.encode("catalogo123"))
+		.withClient(clientId)
+		.secret(bcryptpasswordEncoder.encode(clientSecret))
 		.scopes("read","write")
 		.authorizedGrantTypes("password")
-		.accessTokenValiditySeconds(86400); //24 horas
+		.accessTokenValiditySeconds(jwtDuration); //24 horas
 				
 	}
 
