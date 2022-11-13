@@ -40,8 +40,11 @@ public class ProductService {
 		// Category category = (categoryId==0) ? null : categoryRepository.getOne(categoryId);
 		List<Category> categories = (categoryId==0) ? null : Arrays.asList(categoryRepository.getOne(categoryId));		
 		// função TRIM para tirar espaços em brancos antes e depois da String
-		Page <Product> paginatedList = repository.search(categories,name.trim(),pageable);		
-		return paginatedList.map(x-> new ProductDTO(x));
+		Page <Product> paginatedList = repository.search(categories,name.trim(),pageable);
+		
+		//chamada seca do método auxiliar apenas para buscar as categorias
+		repository.findProductsWithCategories(paginatedList.getContent());
+		return paginatedList.map(x-> new ProductDTO(x, x.getCategories()));
 		
 	}
 	

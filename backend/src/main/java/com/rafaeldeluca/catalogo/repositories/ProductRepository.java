@@ -20,6 +20,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	// name LIKE '%rafael%' equivalente name LIKE CONCAT('%',:name,'%'); busca quem tem rafael em algum lugar da String
 	// função TRIM para tirar espaços em brancos antes e depois da String
 	
+	
 	@Query(
 			"SELECT DISTINCT objeto FROM Product objeto "
 			+ "INNER JOIN objeto.categories cats "
@@ -27,5 +28,16 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 			+ "AND (LOWER(objeto.name) LIKE LOWER(CONCAT('%',:name,'%')) )"
 			)
 	Page<Product> search(List<Category> categories, String name, Pageable pageable);
+	
+	// resolvendo o problema das n + 1 consultas para buscar as categorias
+		// JOIN FETCH só funciona com página, não funciona com lista
+		
+	@Query("SELECT objeto FROM Product objeto "
+			+ "JOIN FETCH objeto.categories "
+			+ "WHERE objeto IN :products")
+	List<Product> findProductsWithCategories(List<Product> products);
+	
+	
+	
 
 }
