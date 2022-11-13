@@ -32,11 +32,12 @@ public class ProductService {
 	private CategoryRepository categoryRepository;
 
 	@Transactional(readOnly = true)
-	public Page<ProductDTO> findAllPaged(Long categoryId, Pageable pageable) {
+	public Page<ProductDTO> findAllPaged(Long categoryId, String name, Pageable pageable) {
 		//getOne instancia o objeto em memória, sem tocar o bando de dados
 		// não pode passar um categoryId = zero, então faz um if para retornar null
 		Category category = (categoryId==0) ? null : categoryRepository.getOne(categoryId);
-		Page <Product> paginatedList = repository.search(category, pageable);		
+		// função TRIM para tirar espaços em brancos antes e depois da String
+		Page <Product> paginatedList = repository.search(category,name.trim(),pageable);		
 		return paginatedList.map(x-> new ProductDTO(x));
 		
 	}

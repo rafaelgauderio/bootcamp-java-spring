@@ -15,12 +15,15 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	// Se a category é null, então não foi informado o parâmetro, então tem que buscar todas produtos sem filtar por
 	// 	categoriaId, e não retornar uma lista vazia
 	// Para evitar repetições de categorias usar a cláusula DISTINCT
+	// name LIKE '%rafael%' equivalente name LIKE CONCAT('%',:name,'%'); busca quem tem rafael em algum lugar da String
+	// função TRIM para tirar espaços em brancos antes e depois da String
 	
 	@Query(
 			"SELECT DISTINCT objeto FROM Product objeto "
 			+ "INNER JOIN objeto.categories cats "
-			+ "WHERE (:category IS NULL OR :category IN cats)"
+			+ "WHERE (:category IS NULL OR :category IN cats) "
+			+ "AND (LOWER(objeto.name) LIKE LOWER(CONCAT('%',:name,'%')) )"
 			)
-	Page<Product> search(Category category, Pageable pageable);
+	Page<Product> search(Category category, String name, Pageable pageable);
 
 }

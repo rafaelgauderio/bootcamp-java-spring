@@ -31,12 +31,13 @@ public class ProductResource {
 	
 	@GetMapping
 	public ResponseEntity<Page <ProductDTO>> findAll(
-			@RequestParam(value = "categoryId", defaultValue="0") Long categoryId,			
+			@RequestParam(value = "categoryId", defaultValue="0") Long categoryId,
+			@RequestParam(value = "name"      , defaultValue="") String name,
 			Pageable pageable								
 			) {	
 		//Parametros fica: page, size, sort
 		//PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);		
-		Page<ProductDTO> paginatedList = service.findAllPaged(categoryId, pageable);			
+		Page<ProductDTO> paginatedList = service.findAllPaged(categoryId, name, pageable);			
 		return ResponseEntity.ok().body(paginatedList);
 	}		
 	
