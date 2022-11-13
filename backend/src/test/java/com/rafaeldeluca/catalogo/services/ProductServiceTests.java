@@ -4,6 +4,8 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -91,12 +93,17 @@ public class ProductServiceTests {
 		//quando o método não é void, primeira vai ter o when e depois a action		
 		Mockito.when(repository.findAll((Pageable)ArgumentMatchers.any())).thenReturn(page);
 		
+		
 		Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(productReturn);
 		
 		//findById com id que existe retorna um Optinal NÃO vazio
 		Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(productReturn));
 		//findById com id que existe retorna um Optinal vazio
 		Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
+		
+		
+		// resolvendo o problema de paginatedList is null	
+		Mockito.when(repository.search(any(),any(), any())).thenReturn(page);
 		
 		Mockito.when(repository.getOne(existingId)).thenReturn(productReturn);		
 		Mockito.when(repository.getOne(nonExistingId)).thenThrow(EntityNotFoundException.class);
@@ -143,11 +150,11 @@ public class ProductServiceTests {
 	@Test
 	public void findAllPagedShouldReturnPageOfProducts() {
 		
-		Pageable pageable = PageRequest.of(0, 25);
-		Page<ProductDTO> pageOfProducts = service.findAllPaged(pageable);
+		Pageable pageable = PageRequest.of(0, 12);
+		Page<ProductDTO> pageOfProducts = service.findAllPaged(0L,"",pageable);
 		
 		Assertions.assertNotNull(pageOfProducts);
-		Mockito.verify(repository, Mockito.times(1)).findAll(pageable);	
+		//Mockito.verify(repository, Mockito.times(1)).findAll(pageable);	
 	}
 	
 	@Test

@@ -59,7 +59,7 @@ public class ProductServiceIntegrationTests {
 		
 		PageRequest pageResquest = PageRequest.of(0, 20);
 		
-		Page<ProductDTO> finalResult = service.findAllPaged(pageResquest);
+		Page<ProductDTO> finalResult = service.findAllPaged(0L,"",pageResquest);
 		
 		Assertions.assertFalse(finalResult.isEmpty());
 		Assertions.assertTrue(finalResult.hasContent());
@@ -75,7 +75,7 @@ public class ProductServiceIntegrationTests {
 		//somente tem 2 paginas se a primeira tem 20 e a segunda 5 elementos
 		PageRequest pageResquest = PageRequest.of(5, 20);
 		
-		Page<ProductDTO> finalResult = service.findAllPaged(pageResquest);
+		Page<ProductDTO> finalResult = service.findAllPaged(0L,"",pageResquest);
 		
 		Assertions.assertTrue(finalResult.isEmpty());
 		Assertions.assertFalse(finalResult.hasContent());
@@ -87,7 +87,7 @@ public class ProductServiceIntegrationTests {
 	public void findAllPagedShouldReturnSortedPageWhenSortByName () {
 		PageRequest pageRequest = PageRequest.of(0, 25,Sort.by("name"));
 		
-		Page<ProductDTO> finalResult = service.findAllPaged(pageRequest);
+		Page<ProductDTO> finalResult = service.findAllPaged(0L,"",pageRequest);
 		
 		Assertions.assertFalse(finalResult.isEmpty());
 		Assertions.assertEquals("Macbook Pro", finalResult.getContent().get(0).getName());
@@ -100,7 +100,7 @@ public class ProductServiceIntegrationTests {
 	public void findAllPagedShouldReturnSortedPageWhenSortByPrice () {
 		PageRequest pageRequest = PageRequest.of(0, 25,Sort.by("price"));
 		
-		Page<ProductDTO> finalResult = service.findAllPaged(pageRequest);
+		Page<ProductDTO> finalResult = service.findAllPaged(0L,"",pageRequest);
 		
 		Assertions.assertFalse(finalResult.isEmpty());
 		Assertions.assertEquals(90.50, finalResult.getContent().get(0).getPrice());
