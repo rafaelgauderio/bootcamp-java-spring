@@ -32,8 +32,11 @@ public class ProductService {
 	private CategoryRepository categoryRepository;
 
 	@Transactional(readOnly = true)
-	public Page<ProductDTO> findAllPaged(Pageable pageable) {
-		Page <Product> paginatedList = repository.findAll(pageable);		
+	public Page<ProductDTO> findAllPaged(Long categoryId, Pageable pageable) {
+		//getOne instancia o objeto em memória, sem tocar o bando de dados
+		// não pode passar um categoryId = zero, então faz um if para retornar null
+		Category category = (categoryId==0) ? null : categoryRepository.getOne(categoryId);
+		Page <Product> paginatedList = repository.search(category, pageable);		
 		return paginatedList.map(x-> new ProductDTO(x));
 		
 	}
