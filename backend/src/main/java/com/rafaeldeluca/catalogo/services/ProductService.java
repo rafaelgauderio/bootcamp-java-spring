@@ -1,5 +1,7 @@
 package com.rafaeldeluca.catalogo.services;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -32,9 +34,17 @@ public class ProductService {
 	private CategoryRepository categoryRepository;
 
 	@Transactional(readOnly = true)
-	public Page<ProductDTO> findAllPaged(Pageable pageable) {
-		Page <Product> paginatedList = repository.findAll(pageable);		
-		return paginatedList.map(x-> new ProductDTO(x));
+	public Page<ProductDTO> findAllPaged(Long categoryId, String name, Pageable pageable) {
+		//getOne instancia o objeto em memória, sem tocar o bando de dados
+		// não pode passar um categoryId = zero, então faz um if para retornar null
+		// Category category = (categoryId==0) ? null : categoryRepository.getOne(categoryId);
+		List<Category> categories = (categoryId==0) ? null : Arrays.asList(categoryRepository.getOne(categoryId));		
+		// função TRIM para tirar espaços em brancos antes e depois da String
+		Page <Product> paginatedList = repository.search(categories,name.trim(),pageable);
+		
+		//chamada seca do método auxiliar apenas para buscar as categorias
+		repository.findProductsWithCategories(paginatedList.getContent());
+		return paginatedList.map(x-> new ProductDTO(x, x.getCategories()));
 		
 	}
 	
