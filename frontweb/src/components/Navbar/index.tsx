@@ -1,14 +1,16 @@
+import './styles.css';
+
 const NavBar = () => {
   return (
-    <nav className="bg-primary">
-      <div>
-        <a href="link">
+    <nav className="navbar navbar-expand-md bg-primary main-nav">
+      <div className="container-fluid">
+        <a href="link" className="nav-logo-text">
           <h4>Catálogo de Produtos</h4>
         </a>
-        <div>
-          <ul>
+        <div className="collapse navbar-collapse">
+          <ul className="navbar-nav offset-md-2 main-menu">
             <li>
-              <a href="link">HOME</a>
+              <a href="link" className="active">HOME</a>
             </li>
             <li>
               <a href="link">CATÁLOGO</a>
@@ -21,6 +23,6 @@ const NavBar = () => {
       </div>
     </nav>
   );
-}
+};
 
 export default NavBar;
