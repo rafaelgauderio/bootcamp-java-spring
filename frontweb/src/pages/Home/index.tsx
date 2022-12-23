@@ -1,5 +1,6 @@
 import { ReactComponent as ImagemPrincipal } from 'assets/images/main-image.svg';
 import NavBar from 'components/Navbar';
+import './styles.css';
 
 const Home = () => {
   return (
@@ -8,13 +9,13 @@ const Home = () => {
       <div className="home-container">
         <div className="home-card">
           <div className="home-content-container">
-          <h1>Conheça nosso catálogo de produto</h1>
+            <h1>Conheça nosso catálogo de produtos</h1>
           </div>
-          <div className="home-image-container"></div>
-              <ImagemPrincipal></ImagemPrincipal>
+          <div className="home-image-container">
+          <ImagemPrincipal></ImagemPrincipal>
+          </div>
         </div>
       </div>
-      
     </>
   );
 };
