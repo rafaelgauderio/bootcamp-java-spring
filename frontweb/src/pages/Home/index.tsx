@@ -1,5 +1,6 @@
 import { ReactComponent as ImagemPrincipal } from 'assets/images/main-image.svg';
 import NavBar from 'components/Navbar';
+import ButtonIcon from 'components/ButtonIcon';
 import './styles.css';
 
 const Home = () => {
@@ -10,6 +11,8 @@ const Home = () => {
         <div className="home-card">
           <div className="home-content-container">
             <h1>Conheça nosso catálogo de produtos</h1>
+            <p>Encontre aqui os melhores produtos eletrônicos do mercado</p>
+            <ButtonIcon></ButtonIcon>
           </div>
           <div className="home-image-container">
           <ImagemPrincipal></ImagemPrincipal>
