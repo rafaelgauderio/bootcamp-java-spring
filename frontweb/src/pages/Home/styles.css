@@ -116,5 +116,48 @@ h2 {
     margin-bottom: 50px;
   }
 
+  .home-image-container svg {
+    width: 700px;
+  }
 
 }
+
+@media (min-width: 1200px) {
+
+    .home-card {
+        flex-direction: row;
+        justify-content: space-around;
+        padding: calc((85vh - 490px)/2 - 20px) 0;
+        
+    }
+
+    .home-content-container {
+        align-items: flex-start;
+        align-content: space-between;
+        flex-flow: wrap;
+        flex-direction: column;
+        text-align: left;
+        padding: 30px;
+        height: 490px;
+        width:700px;
+    }
+
+    .home-image-container {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+    }
+
+    .home-image-container svg {
+        width: 100%;
+        height: auto;
+      }
+}
+
+@media (min-width: 1400px) {
+    .home-image-container svg {
+        width: 480px;
+    }
+}
+
+
