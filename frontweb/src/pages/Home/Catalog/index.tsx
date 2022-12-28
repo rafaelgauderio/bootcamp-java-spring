@@ -1,13 +1,37 @@
-import NavBar from "components/Navbar";
-import ProductCard from "components/ProductCard";
+import NavBar from 'components/Navbar';
+import ProductCard from 'components/ProductCard';
 
 const Catalog = () => {
-
   return (
     <>
-    <NavBar></NavBar>
+      <NavBar></NavBar>
       <div className="container my-4">
-        <ProductCard></ProductCard>
+        <div className="row">
+          <div className="col-sm-6 col-lg-4 col-xl-3">
+            <ProductCard></ProductCard>
+          </div>
+          <div className="col-sm-6 col-lg-4 col-xl-3">
+            <ProductCard></ProductCard>
+          </div>
+          <div className="col-sm-6 col-lg-4 col-xl-3">
+            <ProductCard></ProductCard>
+          </div>
+          <div className="col-sm-6 col-lg-4 col-xl-3">
+            <ProductCard></ProductCard>
+          </div>
+          <div className="col-sm-6 col-lg-4 col-xl-3">
+            <ProductCard></ProductCard>
+          </div>
+          <div className="col-sm-6 col-lg-4 col-xl-3">
+            <ProductCard></ProductCard>
+          </div>
+          <div className="col-sm-6 col-lg-4 col-xl-3">
+            <ProductCard></ProductCard>
+          </div>
+          <div className="col-sm-6 col-lg-4 col-xl-3">
+            <ProductCard></ProductCard>
+          </div>
+        </div>
       </div>
     </>
   );
