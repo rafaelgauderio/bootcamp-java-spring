@@ -1,4 +1,5 @@
 import NavBar from "components/Navbar";
+import ProductCard from "components/ProductCard";
 
 const Catalog = () => {
 
@@ -6,7 +7,7 @@ const Catalog = () => {
     <>
     <NavBar></NavBar>
       <div className="container my-4">
-        <h1>Tela do catálogo de produtos</h1>
+        <ProductCard></ProductCard>
       </div>
     </>
   );
