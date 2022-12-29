@@ -1,12 +1,10 @@
 import { ReactComponent as ImagemPrincipal } from 'assets/images/main-image.svg';
-import NavBar from 'components/Navbar';
 import ButtonIcon from 'components/ButtonIcon';
 import './styles.css';
 
 const Home = () => {
   return (
-    <>
-      <NavBar />
+    <>    
       <div className="home-container">
         <div className="base-card home-card">
           <div className="home-content-container">
