@@ -1,7 +1,7 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import NavBar from 'components/Navbar';
 import Home from 'pages/Home';
-import Catalog from 'pages/Home/Catalog';
+import Catalog from 'pages/Catalog';
 import Admin from 'pages/Admin';
 
 const Rotas = () => (
