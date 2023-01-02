@@ -12,7 +12,7 @@ const Rotas = () => (
       <Route path="/" exact>
         <Home></Home>
       </Route>
-      <Route path="/products exact">
+      <Route path="/products" exact>
         <Catalog></Catalog>
       </Route>
       <Route path="/admin">
