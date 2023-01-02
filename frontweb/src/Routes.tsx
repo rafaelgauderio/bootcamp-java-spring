@@ -3,6 +3,7 @@ import NavBar from 'components/Navbar';
 import Home from 'pages/Home';
 import Catalog from 'pages/Catalog';
 import Admin from 'pages/Admin';
+import ProductDetails from 'pages/ProductDetails';
 
 const Rotas = () => (
   <BrowserRouter>
@@ -11,11 +12,14 @@ const Rotas = () => (
       <Route path="/" exact>
         <Home></Home>
       </Route>
-      <Route path="/products">
+      <Route path="/products exact">
         <Catalog></Catalog>
       </Route>
       <Route path="/admin">
         <Admin></Admin>
+      </Route>
+      <Route path="/products/:productId">
+        <ProductDetails></ProductDetails>
       </Route>
     </Switch>
   </BrowserRouter>
