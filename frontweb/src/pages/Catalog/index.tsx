@@ -1,8 +1,8 @@
 import ProductCard from 'components/ProductCard';
+import { Link } from 'react-router-dom';
 import { Product } from 'types/product';
 
 const Catalog = () => {
-
   const product: Product = {
     id: 25,
     name: 'PC Gamer Foo',
@@ -24,28 +24,44 @@ const Catalog = () => {
     <div className="container my-4">
       <div className="row">
         <div className="col-sm-6 col-lg-4 col-xl-3">
-          <ProductCard product={product}></ProductCard>
+          <Link to="/products/25">
+            <ProductCard product={product}></ProductCard>
+          </Link>
         </div>
         <div className="col-sm-6 col-lg-4 col-xl-3">
-          <ProductCard product={product}></ProductCard>
+          <Link to="/products/25">
+            <ProductCard product={product}></ProductCard>
+          </Link>
         </div>
         <div className="col-sm-6 col-lg-4 col-xl-3">
-          <ProductCard product={product}></ProductCard>
+          <Link to="/products/25">
+            <ProductCard product={product}></ProductCard>
+          </Link>
         </div>
         <div className="col-sm-6 col-lg-4 col-xl-3">
-          <ProductCard product={product}></ProductCard>
+          <Link to="/products/25">
+            <ProductCard product={product}></ProductCard>
+          </Link>
         </div>
         <div className="col-sm-6 col-lg-4 col-xl-3">
-          <ProductCard product={product}></ProductCard>
+          <Link to="/products/25">
+            <ProductCard product={product}></ProductCard>
+          </Link>
         </div>
         <div className="col-sm-6 col-lg-4 col-xl-3">
-          <ProductCard product={product}></ProductCard>
+          <Link to="/products/25">
+            <ProductCard product={product}></ProductCard>
+          </Link>
         </div>
         <div className="col-sm-6 col-lg-4 col-xl-3">
-          <ProductCard product={product}></ProductCard>
+          <Link to="/products/25">
+            <ProductCard product={product}></ProductCard>
+          </Link>
         </div>
         <div className="col-sm-6 col-lg-4 col-xl-3">
-          <ProductCard product={product}></ProductCard>
+          <Link to="/products/25">
+            <ProductCard product={product}></ProductCard>
+          </Link>
         </div>
       </div>
     </div>
