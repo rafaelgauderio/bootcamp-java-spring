@@ -5,8 +5,9 @@ const Admin = () => {
   return (
     <div className="admin-container">
       <NavBar></NavBar>
-      <div className="admin-content"></div>
-      <h2>Conteúdo do painel do admim</h2>
+      <div className="admin-content">
+        <h2>Conteúdo do painel do admim</h2>
+      </div>
     </div>
   );
 };
