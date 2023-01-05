@@ -1,11 +1,18 @@
 import ProductCard from 'components/ProductCard';
 import { Link } from 'react-router-dom';
 import { Product } from 'types/product';
-import  Pagination  from 'components/Pagination';
+import Pagination from 'components/Pagination';
+import { useEffect, useState } from 'react';
+import { SpringPage } from 'types/vendor/spring';
+import { AxiosParams } from 'types/vendor/axios';
+import { BASE_URL } from 'util/requests';
 
 import './styles.css';
+import axios from 'axios';
+
 
 const Catalog = () => {
+  // objeto catalogo mockado
   const product: Product = {
     id: 25,
     name: 'PC Gamer Foo',
@@ -22,6 +29,25 @@ const Catalog = () => {
       },
     ],
   };
+
+  const [page, setPage] = useState<SpringPage<Product>>();
+
+  // useEffect tem 2 argumentos: a função dentro das chaves e as dependências dentro dos colchetes
+  useEffect(() => {
+    const params: AxiosParams = {
+      method: 'GET',
+      url: BASE_URL + '/products',
+      params: {
+        page: 0,
+        size: 12,        
+      },
+    };
+
+    axios(params).then((response) => {
+      setPage(response.data);
+      console.log(page);
+    });
+  }, []);
 
   return (
     <div className="container my-4 catalog-container">
@@ -72,7 +98,7 @@ const Catalog = () => {
       </div>
 
       <div className="row">
-        <Pagination></Pagination>        
+        <Pagination></Pagination>
       </div>
     </div>
   );
