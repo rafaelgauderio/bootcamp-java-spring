@@ -15,10 +15,10 @@ const Rotas = () => (
       <Route path="/products" exact>
         <Catalog></Catalog>
       </Route>
+      <Redirect from="/admin" to="/admin/products" exact></Redirect>
       <Route path="/admin">
         <Admin></Admin>
-      </Route>
-      <Redirect from="/admin" to="/admin/products" exact></Redirect>
+      </Route>      
       <Route path="/products/:productId">
         <ProductDetails></ProductDetails>
       </Route>
