@@ -20,8 +20,8 @@ ul {
   color: #7f7e7e;
   background-color: #f2f2f2;
   height: 48px;
-  border-radius: 50px;
-  padding: 0px 8px;
+  border-radius: 20px;
+  padding: 0px 10px;
 }
 
 .admin-nav-item p {
