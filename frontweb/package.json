@@ -13,7 +13,7 @@
     "@types/react-dom": "17.0.0",
     "@types/react-router-dom": "^5.1.7",
     "axios": "^1.2.2",
-    "bootstrap": "5.0.2",
+    "bootstrap": "^5.2.0-beta1",
     "node-sass": "4.14.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -45,5 +45,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "resolutions": {
+    "autoprefixer": "10.4.5"
+}
+
 }
