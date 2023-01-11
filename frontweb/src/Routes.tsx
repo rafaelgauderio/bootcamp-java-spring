@@ -4,6 +4,7 @@ import Home from 'pages/Home';
 import Catalog from 'pages/Catalog';
 import Admin from 'pages/Admin';
 import ProductDetails from 'pages/ProductDetails';
+import Auth from 'pages/Admin/Auth';
 
 const Rotas = () => (
   <BrowserRouter>
@@ -19,6 +20,9 @@ const Rotas = () => (
       <Route path="/admin">
         <Admin></Admin>
       </Route>      
+      <Route path="/admin/auth">
+        <Auth></Auth>
+      </Route>
       <Route path="/products/:productId">
         <ProductDetails></ProductDetails>
       </Route>
