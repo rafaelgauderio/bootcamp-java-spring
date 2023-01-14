@@ -8,7 +8,7 @@ const Auth = () => {
     return (
         <div className="auth-container">
             <div className="auth-banner-container">
-                <h1>Faça login para cadastrar e editar produtos</h1>
+                <h1>Faça login para cadastrar produtos</h1>
                 <p>Entre em contato conosco caso deseje ter seus produtos divulgados no nosso catálogo</p>
                 <AuthLogin></AuthLogin>
             </div>
