@@ -3,25 +3,19 @@
     flex-direction: row;
     justify-content: space-around;
     padding: 20px;
-    border: 1px solid blueviolet;
-
-
 }
 
 .auth-banner-container {
-    display: none;
-    border: 1px solid green;
+    display: none;   
 }
 
-.auth-form-container {
-    border: 1px solid salmon;
+.auth-form-container {    
     width: 100%;
 }
 
 @media(min-width: 576px) {
     .auth-form-container {
         width: 490px;
-
     }
 }
 
@@ -59,8 +53,7 @@
     }
 
     .auth-banner-container svg {
-        width: 100%;
-        border: 1px solid yellow;
+        width: 100%;       
     }
 }
 
