@@ -1,6 +1,7 @@
 import ButtonIcon from "components/ButtonIcon";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { requestBackendLogin } from "util/requests";
 
 import './styles.css';
 
@@ -14,7 +15,14 @@ const Login = () => {
     const { register, handleSubmit } = useForm<FormData>();
 
     const functionOnSubmit = (formInputData: FormData) => {
-        console.log(formInputData);
+        requestBackendLogin(formInputData)
+            .then(response => {
+                console.log("login com SUCESSO", response);
+            })
+            .catch( error => {
+                console.log("FALHA! Login com ERRO", error);
+            });
+        //console.log(formInputData);
     };
 
     return (
