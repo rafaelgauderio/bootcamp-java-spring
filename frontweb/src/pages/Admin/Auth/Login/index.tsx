@@ -34,7 +34,7 @@ const Login = () => {
                 </div>
                 <div className="singup-container">
                     <span className="not-registered">Faça seu Cadastro. </span>
-                    <Link to="/admin/auth/register" className="login-link-register">
+                    <Link to="/admin/auth/singup" className="login-link-register">
                         CADASTRAR
                     </Link>
                 </div>
