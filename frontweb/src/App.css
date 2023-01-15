@@ -4,19 +4,36 @@
     font-family: 'Open Sans', sans-serif, Arial, Helvetica;
 }
 
-a, a:hover {
+a,
+a:hover {
     color: unset;
     text-decoration: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     margin-bottom: 0;
     font-weight: 700;
 }
 
-.base-card {    
+.base-card {
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0px 4px 20px rgba(0,0,0,0.50);
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.50);
 }
 
+.base-input {
+    border-radius: 10px;
+    font-size: 1em;
+    letter-spacing: -0.015em;
+    color: #263239;
+    height: 60px;
+}
+
+.base-input::placeholder {
+    color: #8E8E8E;
+}

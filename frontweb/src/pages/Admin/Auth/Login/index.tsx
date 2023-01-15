@@ -25,21 +25,20 @@ const Login = () => {
                         name="password">
 
                     </input>
-                    <Link to="/admin/auth/recover" className="login-link-recover">
-                        Esqueci minha senha
-                    </Link>
-                    <div className="Login-submit">
-                        <ButtonIcon text="Fazer login" />
-                    </div>
-                    <div className="singup-container">
-                        <span className="not-registered">Faça seu Cadastro. </span>
-                        <Link to="/admin/auth/register" className="login-link-register">
-                            CADASTRAR
-                        </Link>
-                    </div>
-
-
                 </div>
+                <Link to="/admin/auth/recover" className="login-link-recover">
+                    Esqueci minha senha?
+                </Link>
+                <div className="Login-submit">
+                    <ButtonIcon text="Fazer login" />
+                </div>
+                <div className="singup-container">
+                    <span className="not-registered">Faça seu Cadastro. </span>
+                    <Link to="/admin/auth/register" className="login-link-register">
+                        CADASTRAR
+                    </Link>
+                </div>
+
             </form>
         </div>
 
