@@ -41,7 +41,19 @@ const Login = () => {
                 <div className="mb-4">
                     <input
                         {...register("username", {
-                            required: "Obrigatório informar o Usuário"
+                            required: "Obrigatório informar o Usuário",
+                            minLength: {
+                                value: 3,
+                                message: "Mínimo de 3 caracteres"
+                            },
+                            maxLength: {
+                                value: 25,
+                                message: "Máximo de 25 caracteres"
+                            },
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: "Informe um email válido"
+                            }
                         })}
                         type="text" className="form-control base-input"
                         placeholder="Email" name="username" />
@@ -50,7 +62,15 @@ const Login = () => {
                 <div className="mb-2">
                     <input
                         {...register('password', {
-                            required: "Obrigatório informar a Senha"
+                            required: "Obrigatório informar a Senha",
+                            minLength: {
+                                value: 3,
+                                message: "Mínimo de 3 caracteres"
+                            },
+                            maxLength: {
+                                value: 15,
+                                message: "Máximo de 15 caracteres"
+                            }                             
                         })}
                         type="password" className="form-control base-input"
                         placeholder="Senha"
