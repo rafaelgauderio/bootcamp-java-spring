@@ -1,4 +1,5 @@
 import ButtonIcon from "components/ButtonIcon";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { requestBackendLogin } from "util/requests";
@@ -12,15 +13,19 @@ type FormData = {
 
 const Login = () => {
 
+    const [hasLoginError, setHasLoginError] = useState(false);
+
     const { register, handleSubmit } = useForm<FormData>();
 
     const functionOnSubmit = (formInputData: FormData) => {
         requestBackendLogin(formInputData)
             .then(response => {
                 console.log("login com SUCESSO", response);
+                setHasLoginError(false);
             })
-            .catch( error => {
+            .catch(error => {
                 console.log("FALHA! Login com ERRO", error);
+                setHasLoginError(true);
             });
         //console.log(formInputData);
     };
@@ -28,20 +33,23 @@ const Login = () => {
     return (
 
         <div className="base-card login-card">
-            <h1>LOGAR</h1>
+            <h1>LOGAR</h1>        
+            {hasLoginError && (<div className="alert alert-danger text-center">
+                Erro ao tentar realizar Login!
+            </div>)}
             <form onSubmit={handleSubmit(functionOnSubmit)}>
                 <div className="mb-4">
                     <input
                         {...register("username")}
                         type="text" className="form-control base-input"
-                        placeholder="Email" name="username" />                   
+                        placeholder="Email" name="username" />
                 </div>
                 <div className="mb-2">
                     <input
                         {...register('password')}
                         type="password" className="form-control base-input"
                         placeholder="Senha"
-                        name="password" />                
+                        name="password" />
                 </div>
                 <Link to="/admin/auth/recover" className="login-link-recover">
                     Esqueci minha senha?
