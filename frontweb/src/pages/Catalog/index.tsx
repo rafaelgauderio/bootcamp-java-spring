@@ -4,12 +4,13 @@ import { Product } from 'types/product';
 import Pagination from 'components/Pagination';
 import { useEffect, useState } from 'react';
 import { SpringPage } from 'types/vendor/spring';
-import { AxiosParams } from 'types/vendor/axios';
 import { BASE_URL } from 'util/requests';
+import CardLoader from './CardLoader';
+import axios, { AxiosRequestConfig } from 'axios';
+
 
 import './styles.css';
-import axios from 'axios';
-import CardLoader from './CardLoader';
+
 
 const Catalog = () => {
   /* objeto catalogo mockado
@@ -36,13 +37,14 @@ const Catalog = () => {
 
   // useEffect tem 2 argumentos: a função dentro das chaves e as dependências dentro dos colchetes
   useEffect(() => {
-    const params: AxiosParams = {
+    const params: AxiosRequestConfig = {
       method: 'GET',
-      url: BASE_URL + '/products',
+      baseURL: BASE_URL,
+      url: "/products",
       params: {
         page: 0,
         size: 12,
-      },
+      }
     };
 
     // finally executa uma função depois de resolver uma promisse
