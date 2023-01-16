@@ -15,7 +15,7 @@ const Login = () => {
 
     const [hasLoginError, setHasLoginError] = useState(false);
 
-    const { register, handleSubmit } = useForm<FormData>();
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
     const functionOnSubmit = (formInputData: FormData) => {
         requestBackendLogin(formInputData)
@@ -33,23 +33,29 @@ const Login = () => {
     return (
 
         <div className="base-card login-card">
-            <h1>LOGAR</h1>        
+            <h1>LOGAR</h1>
             {hasLoginError && (<div className="alert alert-danger text-center">
                 Erro ao tentar realizar Login!
             </div>)}
             <form onSubmit={handleSubmit(functionOnSubmit)}>
                 <div className="mb-4">
                     <input
-                        {...register("username")}
+                        {...register("username", {
+                            required: "Obrigatório informar o Usuário"
+                        })}
                         type="text" className="form-control base-input"
                         placeholder="Email" name="username" />
+                    <div className="invalid-feedback d-block">{errors.username?.message}</div>
                 </div>
                 <div className="mb-2">
                     <input
-                        {...register('password')}
+                        {...register('password', {
+                            required: "Obrigatório informar a Senha"
+                        })}
                         type="password" className="form-control base-input"
                         placeholder="Senha"
                         name="password" />
+                    <div className="invalid-feedback d-block">{errors.password?.message}</div>
                 </div>
                 <Link to="/admin/auth/recover" className="login-link-recover">
                     Esqueci minha senha?
