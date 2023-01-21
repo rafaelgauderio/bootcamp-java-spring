@@ -41,7 +41,7 @@ const Login = () => {
                 <div className="mb-4">
                     <input
                         {...register("username", {
-                            required: "Obrigatório informar o Usuário",
+                            required: "Obrigatório informar o Email",
                             minLength: {
                                 value: 3,
                                 message: "Mínimo de 3 caracteres"
@@ -55,7 +55,7 @@ const Login = () => {
                                 message: "Informe um email válido"
                             }
                         })}
-                        type="text" className="form-control base-input"
+                        type="text" className={`form-control base-input ${errors.username? 'is-invalid' : ''}`}
                         placeholder="Email" name="username" />
                     <div className="invalid-feedback d-block">{errors.username?.message}</div>
                 </div>
@@ -70,9 +70,9 @@ const Login = () => {
                             maxLength: {
                                 value: 15,
                                 message: "Máximo de 15 caracteres"
-                            }                             
+                            }
                         })}
-                        type="password" className="form-control base-input"
+                        type="password" className={`form-control base-input ${errors.password? 'is-invalid': ''}`} 
                         placeholder="Senha"
                         name="password" />
                     <div className="invalid-feedback d-block">{errors.password?.message}</div>
