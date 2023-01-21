@@ -2,7 +2,7 @@ import ButtonIcon from "components/ButtonIcon";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { requestBackendLogin } from "util/requests";
+import { getAuthenticationData, requestBackendLogin, saveAuthenticationData } from "util/requests";
 
 import './styles.css';
 
@@ -22,6 +22,9 @@ const Login = () => {
             .then(response => {
                 console.log("login com SUCESSO", response);
                 setHasLoginError(false);
+                saveAuthenticationData(response.data); // argumento é o corpo da resposta
+                const token = getAuthenticationData().access_token;
+                console.log("Generated token: "+ token);
             })
             .catch(error => {
                 console.log("FALHA! Login com ERRO", error);

@@ -9,24 +9,31 @@ const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET ?? 'catalog123';
 
 const basicHeaderAuthorization = () => {
     return (
-        'Basic ' + window.btoa(CLIENT_ID + ':' + CLIENT_SECRET)    
+        'Basic ' + window.btoa(CLIENT_ID + ':' + CLIENT_SECRET)
     );
 }
-   
-       
-    
 
+const tokenKey = 'authData';
 
 type LoginData = {
     username: string;
     password: string;
 }
 
+type LoginResponse = {
+    access_token: string;
+    token_type: string;
+    expires_in: number;
+    scope: string;
+    userFirstName: string;
+    userId: number;
+}
+
 export const requestBackendLogin = (loginData: LoginData) => {
 
     const headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic ' + window.btoa(CLIENT_ID + ':' + CLIENT_SECRET)   
+        'Authorization': 'Basic ' + window.btoa(CLIENT_ID + ':' + CLIENT_SECRET)
     }
 
     const data = qs.stringify({
@@ -34,12 +41,32 @@ export const requestBackendLogin = (loginData: LoginData) => {
         grant_type: "password"
     });
 
-    return axios ({
+    return axios({
         method: 'POST',
         baseURL: BASE_URL,
         url: '/oauth/token',
-        data, headers});
+        data, headers
+    });
     // no javascript quando a nome da variável e o atributo tem o mesmo nome, é possíve omitir o valor do atributo
 }
+
+export const saveAuthenticationData = (object: LoginResponse) => {
+    // no Local storage consigo apenas salvar string. 
+    // tanto no campo key como no value
+    // stringify() para converter Json para string
+    localStorage.setItem('authData', JSON.stringify(object));
+};
+
+export const getAuthenticationData = () => {
+    // operador de coalescência para garantir que objeto tokenKey não vai ser nulo
+    // objeto vazio entre aspas duplas para converter para string 
+    let strindData = localStorage.getItem(tokenKey) ?? "{}";
+    // converter a string para objeto
+    let objectData = JSON.parse(strindData);
+    // type safety para garantir que retorna uma dado do tipo LoginResponse
+    return objectData as LoginResponse;
+}
+
+
 
 
