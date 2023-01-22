@@ -53,11 +53,11 @@ export const requestBackendLogin = (loginData: LoginData) => {
 export const requestBackend = (config: AxiosRequestConfig) => {
 
     const headers = config.withCredentials ?
-     {
-        Authorization: 'Bearer ' + getAuthenticationData().access_token,
-     } : config.headers;
+        {
+            Authorization: 'Bearer ' + getAuthenticationData().access_token,
+        } : config.headers;
 
-    return axios({...config , baseURL: BASE_URL , headers});
+    return axios({ ...config, baseURL: BASE_URL, headers });
 };
 
 export const saveAuthenticationData = (object: LoginResponse) => {
@@ -76,6 +76,30 @@ export const getAuthenticationData = () => {
     // type safety para garantir que retorna uma dado do tipo LoginResponse
     return objectData as LoginResponse;
 }
+
+// adicionando um response interceptor antes da requisição
+axios.interceptors.request.use(function (config) {
+    console.log("Interceptor ANTES da requisição");
+    return config;
+}, function (error) {
+    console.log("Interceptor ERRO na requisição");
+    return Promise.reject(error);
+});
+
+// adicionao um response interceptor no resposta da requisição
+
+axios.interceptors.response.use(function (response) {
+    console.log("Interceptor SUCESSO na resposta");
+    return response;
+}, function (error) {
+    console.log("Interceptor ERRO na resposta");
+    return Promise.reject(error);
+}
+);
+
+
+
+
 
 
 
