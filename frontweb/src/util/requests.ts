@@ -123,6 +123,15 @@ export const getTokenData = (): TokenData | undefined => {
     }
 };
 
+export const isUserAuthenticated = () : boolean => {
+    const tokenData = getTokenData();
+
+    // testar se é menor que uma data futura para ver se não expirou o token
+    // Date do javaScript está em milisegundos e o do Jwt em segundos
+    const now = Date.now() / 1000;
+    return (tokenData && tokenData.exp > now) ? true : false;
+}
+
 
 
 
