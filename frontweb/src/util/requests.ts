@@ -7,11 +7,13 @@ const CLIENT_ID = process.env.REACT_APP_CLIENT_ID ?? 'catalog';
 
 const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET ?? 'catalog123';
 
+/*
 const basicHeaderAuthorization = () => {
     return (
         'Basic ' + window.btoa(CLIENT_ID + ':' + CLIENT_SECRET)
     );
 }
+*/
 
 const tokenKey = 'authData';
 
