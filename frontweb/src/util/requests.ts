@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
 
 export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8080';
@@ -49,6 +49,16 @@ export const requestBackendLogin = (loginData: LoginData) => {
     });
     // no javascript quando a nome da variável e o atributo tem o mesmo nome, é possíve omitir o valor do atributo
 }
+
+export const requestBackend = (config: AxiosRequestConfig) => {
+
+    const headers = config.withCredentials ?
+     {
+        Authorization: 'Bearer ' + getAuthenticationData().access_token,
+     } : config.headers;
+
+    return axios({...config , baseURL: BASE_URL , headers});
+};
 
 export const saveAuthenticationData = (object: LoginResponse) => {
     // no Local storage consigo apenas salvar string. 
