@@ -1,7 +1,7 @@
 import ButtonIcon from "components/ButtonIcon";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { getAuthenticationData, requestBackendLogin, saveAuthenticationData } from "util/requests";
 
 import './styles.css';
@@ -16,6 +16,9 @@ const Login = () => {
     const [hasLoginError, setHasLoginError] = useState(false);
 
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+    // para fazer mudanças de rotas progamaticamente
+    
+    const historyLogin = useHistory();
 
     const functionOnSubmit = (formInputData: FormData) => {
         requestBackendLogin(formInputData)
@@ -25,6 +28,7 @@ const Login = () => {
                 saveAuthenticationData(response.data); // argumento é o corpo da resposta
                 const token = getAuthenticationData().access_token;
                 console.log("Generated token: "+ token);
+                historyLogin.push("/admin/products");
             })
             .catch(error => {
                 console.log("FALHA! Login com ERRO", error);
