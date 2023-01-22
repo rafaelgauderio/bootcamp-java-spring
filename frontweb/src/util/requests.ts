@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
+import history from './history';
 
 export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8080';
 
@@ -94,6 +95,10 @@ axios.interceptors.response.use(function (response) {
     console.log("Interceptor SUCESSO na resposta");
     return response;
 }, function (error) {
+    // se der erro na resposta
+    if (error.response.status === 403 || error.response.status === 401 ) {
+        history.push('/admin/auth/login');
+    }
     console.log("Interceptor ERRO na resposta");
     return Promise.reject(error);
 }
