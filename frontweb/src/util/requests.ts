@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
 import history from './history';
+import jwtDecode from 'jwt-decode';
 
 export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8080';
 
@@ -30,6 +31,14 @@ type LoginResponse = {
     scope: string;
     userFirstName: string;
     userId: number;
+}
+
+type Role = 'ROLE_ADMIN' | 'ROLE_OPERATOR';
+
+type TokenData = {
+    exp: number;
+    user_name: string,
+    authorites: Role[];
 }
 
 export const requestBackendLogin = (loginData: LoginData) => {
@@ -96,13 +105,25 @@ axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
     // se der erro na resposta
-    if (error.response.status === 403 || error.response.status === 401 ) {
+    if (error.response.status === 403 || error.response.status === 401) {
         history.push('/admin/auth/login');
     }
     console.log("Interceptor ERRO na resposta");
     return Promise.reject(error);
-}
-);
+});
+
+export const getTokenData = (): TokenData | undefined => {
+
+    const loginResponse = getAuthenticationData();
+    // token pode não existir ou ser inválido
+    try {
+        return jwtDecode(loginResponse.access_token) as TokenData;
+    } catch (error) {
+        return undefined;
+    }
+};
+
+
 
 
 
