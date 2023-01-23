@@ -9,7 +9,7 @@ type Props = {
 const TestChildren = ({ weight, children }: Props) => {
   return (
     <>
-    {children}
+      {children}
       <h3>Testando componente children</h3>
       <h4>Peso = {weight} </h4>
       {children}

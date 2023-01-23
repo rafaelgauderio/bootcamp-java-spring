@@ -1,4 +1,5 @@
-import { Switch, Route } from 'react-router-dom';
+import PrivateRoute from 'components/PrivateRoute/indext';
+import { Switch } from 'react-router-dom';
 import NavBar from './Navbar';
 import './styles.css';
 import Users from './User';
@@ -9,15 +10,15 @@ const Admin = () => {
       <NavBar></NavBar>
       <div className="admin-content">
         <Switch>
-          <Route path="/admin/products">
+          <PrivateRoute path="/admin/products">
             <h1>CRUD dos Produtos</h1>
-          </Route>
-          <Route path="/admin/categories">
+          </PrivateRoute>
+          <PrivateRoute path="/admin/categories">
             <h1>CRUD dos Categorias</h1>
-          </Route>
-          <Route path="/admin/users">
+          </PrivateRoute>
+          <PrivateRoute path="/admin/users">
             <Users />
-          </Route>
+          </PrivateRoute>
         </Switch>
       </div>
     </div>

@@ -11,7 +11,7 @@ const Tests = () => {
       <div className="home-container">
         <h1>Página para testar novos componentes</h1>
         <TestChildren weight={74.9}>
-          <h5 text-left>
+          <h5>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio,
             officia!
           </h5>
