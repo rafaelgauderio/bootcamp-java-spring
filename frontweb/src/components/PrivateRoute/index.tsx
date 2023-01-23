@@ -5,14 +5,13 @@ type Props = {
   children: React.ReactNode;
   path: string;
 };
-
 const PrivateRoute = ({ children, path }: Props) => {
   return (
     <Route
       path={path}
       render={() =>
         isUserAuthenticated() ? (
-          <>children</>
+          <>{children}</>
         ) : (
           <Redirect to="/admin/auth/login" />
         )
@@ -20,5 +19,4 @@ const PrivateRoute = ({ children, path }: Props) => {
     />
   );
 };
-
 export default PrivateRoute;
