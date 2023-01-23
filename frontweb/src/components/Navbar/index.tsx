@@ -1,10 +1,48 @@
 import './styles.css';
 import '@popperjs/core';
 import 'bootstrap/js/src/collapse';
+import history from 'util/history';
 
 import { Link, NavLink } from 'react-router-dom';
+import {
+  getTokenData,
+  isUserAuthenticated,
+  removeAuthenticationData,
+  TokenData,
+} from 'util/requests';
+import { useEffect, useState } from 'react';
+
+type AuthData = {
+  authenticated: boolean;
+  tokenData?: TokenData; // tokenData é um parâmetro opcional
+};
 
 const NavBar = () => {
+  const [authData, setAuthData] = useState<AuthData>({ authenticated: false });
+
+  // useEffect tem 2 argumentos
+  useEffect(() => {
+    if (isUserAuthenticated() === true) {
+      setAuthData({
+        authenticated: true,
+        tokenData: getTokenData(),
+      });
+    } else {
+      setAuthData({
+        authenticated: false,
+      });
+    }
+  }, []);
+
+  const handleClickLogout = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault(); // Não haver a navegação no link.
+    removeAuthenticationData();
+    setAuthData({
+      authenticated: false,
+    });
+    history.replace('/');
+  };
+
   return (
     <nav className="navbar navbar-expand-md navbar-dark bg-primary main-nav">
       <div className="container-fluid">
@@ -31,12 +69,35 @@ const NavBar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/products" activeClassName="active">CATÁLOGO</NavLink>
+              <NavLink to="/products" activeClassName="active">
+                CATÁLOGO
+              </NavLink>
             </li>
             <li>
-              <NavLink to="/admin" activeClassName="active">PAINEL DO ADMIN</NavLink>
+              <NavLink to="/admin" activeClassName="active">
+                PAINEL DO ADMIN
+              </NavLink>
             </li>
           </ul>
+        </div>
+
+        <div className="nav-login-logout">
+          {authData.authenticated ? (
+            <>
+              <span className="nav-user-email">
+                {authData.tokenData?.user_name}
+              </span>
+              <div className="link-logout">
+                <a href="#logout" onClick={handleClickLogout}>
+                  SAIR
+                </a>
+              </div>
+            </>
+          ) : (
+            <div className="link-login">
+              <Link to="/admin/auth/login">LOGIN</Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>

@@ -1,34 +1,76 @@
 .nav-logo-text {
-    color: white;
-
+  color: white;
 }
 
 .nav-logo-text:hover {
-    color: white
+  color: white;
 }
 
 .main-menu {
-    display: flex;    
-    font-size: 19px;
-    width: 390px;
-    justify-content: space-between;    
+  display: flex;
+  font-size: 19px;
+  width: 390px;
+  justify-content: space-between;
 }
 
 .main-menu a {
-    color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .main-menu a:hover {
-    color: white;
+  color: white;
 }
 
 .main-menu a.active {
-    color:white;
-    font-weight: 700;
+  color: white;
+  font-weight: 700;
 }
 
 .main-nav {
-    min-height: 70px;
-    padding-left: 40px;
+  min-height: 70px;
+  padding-left: 40px;
+}
 
+.nav-login-logout {
+  display: none;
+}
+
+.nav-user-email {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .nav-login-logout {
+    display: unset;
+    color: white;
+    margin-right: 20px;
+    font-weight: 700;
+  }
+}
+
+@media (min-width: 992px) {
+  .nav-login-logout {
+    margin-right: 30px;
+  }
+  .nav-user-email {
+    display: unset;
+    font-weight: normal;
+    margin-right: 25px;
+  }
+
+  .link-login,
+  .link-logout {
+    border: 1.5px solid white;
+    border-radius: 10px;
+    padding: 6px;
+    transition: 0.4s all ease-in-out;
+  }
+
+  .link-logout {
+    display: inline;
+  }
+
+  .link-login:hover {
+    transform: scale(1.15);
+  }
 }

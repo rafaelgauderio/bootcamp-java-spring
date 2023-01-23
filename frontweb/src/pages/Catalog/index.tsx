@@ -8,9 +8,7 @@ import { SpringPage } from 'types/vendor/spring';
 import { requestBackend } from 'util/requests';
 import CardLoader from './CardLoader';
 
-
 import './styles.css';
-
 
 const Catalog = () => {
   /* objeto catalogo mockado
@@ -39,11 +37,11 @@ const Catalog = () => {
   useEffect(() => {
     const params: AxiosRequestConfig = {
       method: 'GET',
-      url: "/products",
+      url: '/products',
       params: {
         page: 0,
         size: 12,
-      }
+      },
     };
 
     // finally executa uma função depois de resolver uma promisse
@@ -64,19 +62,19 @@ const Catalog = () => {
         <h1>Catálogo de Produtos</h1>
       </div>
       <div className="row">
-        {isLoading ?
+        {isLoading ? (
           <CardLoader></CardLoader>
-          : (
-            page?.content.map((produto) => {
-              return (
-                <div className="col-sm-6 col-lg-4 col-xl-3" key={produto.id}>
-                  <Link to="/products/1">
-                    <ProductCard product={produto}></ProductCard>
-                  </Link>
-                </div>
-              );
-            })
-          )}
+        ) : (
+          page?.content.map((produto) => {
+            return (
+              <div className="col-sm-6 col-lg-4 col-xl-3" key={produto.id}>
+                <Link to="/products/1">
+                  <ProductCard product={produto}></ProductCard>
+                </Link>
+              </div>
+            );
+          })
+        )}
       </div>
       <div className="row">
         <Pagination></Pagination>

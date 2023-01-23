@@ -4,8 +4,9 @@ import Auth from 'pages/Admin/Auth';
 import Catalog from 'pages/Catalog';
 import Home from 'pages/Home';
 import ProductDetails from 'pages/ProductDetails';
+import Tests from 'pages/Tests';
 import { Redirect, Route, Switch, Router } from 'react-router-dom';
-import history from 'util/history'
+import history from 'util/history';
 
 const Rotas = () => (
   <Router history={history}>
@@ -27,6 +28,9 @@ const Rotas = () => (
       <Redirect from="/admin" to="/admin/products" exact></Redirect>
       <Route path="/admin">
         <Admin></Admin>
+      </Route>
+      <Route path="/tests">
+        <Tests></Tests>
       </Route>
     </Switch>
   </Router>
