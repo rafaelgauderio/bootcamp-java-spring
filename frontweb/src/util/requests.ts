@@ -35,7 +35,7 @@ type LoginResponse = {
 
 type Role = 'ROLE_ADMIN' | 'ROLE_OPERATOR';
 
-type TokenData = {
+export type TokenData = {
     exp: number;
     user_name: string,
     authorites: Role[];
@@ -78,6 +78,10 @@ export const saveAuthenticationData = (object: LoginResponse) => {
     // stringify() para converter Json para string
     localStorage.setItem('authData', JSON.stringify(object));
 };
+
+export const removeAuthenticationData = () => {
+    localStorage.removeItem(tokenKey);
+}
 
 export const getAuthenticationData = () => {
     // operador de coalescência para garantir que objeto tokenKey não vai ser nulo
