@@ -1,13 +1,14 @@
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import NavBar from 'components/Navbar';
-import Home from 'pages/Home';
-import Catalog from 'pages/Catalog';
 import Admin from 'pages/Admin';
-import ProductDetails from 'pages/ProductDetails';
 import Auth from 'pages/Admin/Auth';
+import Catalog from 'pages/Catalog';
+import Home from 'pages/Home';
+import ProductDetails from 'pages/ProductDetails';
+import { Redirect, Route, Switch, Router } from 'react-router-dom';
+import history from 'util/history'
 
 const Rotas = () => (
-  <BrowserRouter>
+  <Router history={history}>
     <NavBar></NavBar>
     <Switch>
       <Route path="/" exact>
@@ -28,7 +29,7 @@ const Rotas = () => (
         <Admin></Admin>
       </Route>
     </Switch>
-  </BrowserRouter>
+  </Router>
 );
 
 export default Rotas;
