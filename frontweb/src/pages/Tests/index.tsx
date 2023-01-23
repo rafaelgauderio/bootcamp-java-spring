@@ -1,13 +1,19 @@
 import { ReactComponent as ImagemPrincipal } from 'assets/images/main-image.svg';
 import ButtonIcon from 'components/ButtonIcon';
 import { Link } from 'react-router-dom';
-
+import { getTokenData, isUserAuthenticated } from 'util/requests';
 import './styles.css';
 
-const Home = () => {
+const Tests = () => {
   return (
     <>
       <div className="home-container">
+        <h3>{getTokenData()?.user_name}</h3>
+        <h3>
+          {isUserAuthenticated()
+            ? 'Usuário autenticado'
+            : 'Usuário NÃO autenticado'}
+        </h3>
         <div className="base-card home-card">
           <div className="home-content-container">
             <div>
@@ -29,4 +35,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Tests;
