@@ -30,8 +30,7 @@ const Tests = () => {
         </h3>
         <hr />
         <h4>
-          {' '}
-          Resultado se tem regras no perfil ={' '}
+          Resultado se tem regras no perfil =
           {hasSomeRoles(['ROLE_ADMIN', 'ROLE_OPERATOR']) ? 'Sim' : 'Não'}
         </h4>
         <div className="base-card home-card">

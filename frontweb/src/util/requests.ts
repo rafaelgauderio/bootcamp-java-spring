@@ -148,13 +148,10 @@ export const hasSomeRoles = (roles: Role[]): boolean => {
     return true;
   }
   const tokenData = getTokenData();
+  
   if (tokenData !== undefined ) {
-    for (var j = 0; j < roles.length; j++) {
-      if (tokenData.authorites.includes(roles[j])) {
-        console.log(tokenData);
-        return true;
-      }
-    }
-  }
+    return roles.some(role => tokenData.authorites.includes(role));
+  } 
+  
   return false;
 };
