@@ -8,36 +8,35 @@ import {
   getTokenData,
   isUserAuthenticated,
   removeAuthenticationData,
-  TokenData,
 } from 'util/requests';
-import { useEffect, useState } from 'react';
-
-type AuthData = {
-  authenticated: boolean;
-  tokenData?: TokenData; // tokenData é um parâmetro opcional
-};
+import { useContext, useEffect } from 'react';
+import { AuthContext } from 'AuthContext';
 
 const NavBar = () => {
-  const [authData, setAuthData] = useState<AuthData>({ authenticated: false });
+  // referência apontada para o contexto global
+  // tenho nos argumentos o estado e função para alterar o estado
+  const { authContextData, setAuthContextData } = useContext(AuthContext);
+
+  //const [authData, setAuthData] = useState<AuthData>({ authenticated: false });
 
   // useEffect tem 2 argumentos
   useEffect(() => {
     if (isUserAuthenticated() === true) {
-      setAuthData({
+      setAuthContextData({
         authenticated: true,
         tokenData: getTokenData(),
       });
     } else {
-      setAuthData({
+      setAuthContextData({
         authenticated: false,
       });
     }
-  }, []);
+  }, [setAuthContextData]);
 
   const handleClickLogout = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault(); // Não haver a navegação no link.
     removeAuthenticationData();
-    setAuthData({
+    setAuthContextData({
       authenticated: false,
     });
     history.replace('/');
@@ -82,10 +81,10 @@ const NavBar = () => {
         </div>
 
         <div className="nav-login-logout">
-          {authData.authenticated ? (
+          {authContextData.authenticated ? (
             <>
               <span className="nav-user-email">
-                {authData.tokenData?.user_name}
+                {authContextData.tokenData?.user_name}
               </span>
               <div className="link-logout">
                 <a href="#logout" onClick={handleClickLogout}>
