@@ -9,11 +9,15 @@ const PrivateRoute = ({ children, path }: Props) => {
   return (
     <Route
       path={path}
-      render={() =>
+      render={({location}) =>
         isUserAuthenticated() ? (
           <>{children}</>
         ) : (
-          <Redirect to="/admin/auth/login" />
+          // vai direcionar para página protegida que estava tentando acessar antes de estar logado
+          <Redirect to={{
+            pathname: "/admin/auth/login",
+            state: {from: location}
+          }} />
         )
       }
     />

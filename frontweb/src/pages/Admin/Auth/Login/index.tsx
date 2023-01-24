@@ -2,7 +2,7 @@ import { AuthContext } from 'AuthContext';
 import ButtonIcon from 'components/ButtonIcon';
 import { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import {
   getTokenData,
   requestBackendLogin,
@@ -16,8 +16,16 @@ type FormData = {
   password: string;
 };
 
+type LocationState = {
+  from: string;
+};
+
 const Login = () => {
-  const { authContextData, setAuthContextData } = useContext(AuthContext);
+  const location = useLocation<LocationState>();
+
+  const { from } = location.state || { from: { pathname: '/admin' } };
+
+  const { setAuthContextData } = useContext(AuthContext);
 
   const [hasLoginError, setHasLoginError] = useState(false);
 
@@ -43,7 +51,8 @@ const Login = () => {
           authenticated: true,
           tokenData: getTokenData(),
         });
-        historyLogin.push('/admin/products');
+        // push empilha uma nova rota, replace substitui a rota de login (redirecionada antes de logar) para a rota anterior
+        historyLogin.replace(from); // vai voltar para a pagina protegida que estava tentando acessar antes de logar
       })
       .catch((error) => {
         console.log('FALHA! Login com ERRO', error);
