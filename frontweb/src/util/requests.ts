@@ -76,7 +76,7 @@ axios.interceptors.response.use(
   },
   function (error) {
     // se der erro na resposta
-    if (error.response.status === 403 || error.response.status === 401) {
+    if (error.response.status === 401) {
       history.push('/admin/auth/login');
     }
     console.log('Interceptor ERRO na resposta');

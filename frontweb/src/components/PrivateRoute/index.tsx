@@ -1,24 +1,27 @@
 import { Redirect, Route } from 'react-router-dom';
-import { isUserAuthenticated } from 'util/auth';
+import { hasSomeRoles, isUserAuthenticated, Role } from 'util/auth';
+
 
 type Props = {
   children: React.ReactNode;
   path: string;
+  roles?: Role []; // roles é um parâmetro opcional
 };
-const PrivateRoute = ({ children, path }: Props) => {
+const PrivateRoute = ({ children, path, roles = [] }: Props) => {
   return (
     <Route
       path={path}
       render={({location}) =>
-        isUserAuthenticated() ? (
-          <>{children}</>
-        ) : (
-          // vai direcionar para página protegida que estava tentando acessar antes de estar logado
+        !isUserAuthenticated() ? (
           <Redirect to={{
             pathname: "/admin/auth/login",
-            state: {from: location}
-          }} />
-        )
+            state: {from: location},
+          }}/> ) : 
+          !hasSomeRoles(roles) ? (
+            <Redirect to="admin/products" />
+          ) : (
+          <>{children}</>
+          )     
       }
     />
   );
