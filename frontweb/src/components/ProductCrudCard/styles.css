@@ -1,10 +1,10 @@
-.product-card {
+.product-crud-card {
   margin-bottom: 20px;
   transition: transform 0.7s;
 }
 
-.product-card:hover {
-  transform: scale(1.06);
+.product-crud-card:hover {
+  transform: scale(1.02);
   border: 1px solid #407bff ;  
 }
 
