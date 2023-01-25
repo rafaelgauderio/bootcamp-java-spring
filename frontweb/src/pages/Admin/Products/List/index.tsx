@@ -1,4 +1,5 @@
 import ProductCrudCard from 'components/ProductCrudCard';
+import { Link } from 'react-router-dom';
 import './styles.css';
 
 const List = () => {
@@ -23,15 +24,41 @@ const List = () => {
     ],
   };
   return (
-    <div>
-      <button className="btn btn-primary text-white">Adicionar Novo</button>
-      <div className="search-bar">Barra de Busca</div>
-
-    <ProductCrudCard product={product02} />
-    <ProductCrudCard product={product02} />
-    <ProductCrudCard product={product02} />
-    <ProductCrudCard product={product02} />    
-    </div>
+    <>
+      <div className="product-crud-search-bar-container">
+        <Link to="/admin/product/create">
+          <button className="btn btn-primary text-white btn-crud-add">
+            Adicionar Novo
+          </button>
+        </Link>
+        <div className="base-card search-bar-product-filter">
+          Barra de Busca
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-sm-6 col-md-12">
+          <ProductCrudCard product={product02} />
+        </div>
+        <div className="col-sm-6 col-md-12">
+          <ProductCrudCard product={product02} />
+        </div>
+        <div className="col-sm-6 col-md-12">
+          <ProductCrudCard product={product02} />
+        </div>
+        <div className="col-sm-6 col-md-12">
+          <ProductCrudCard product={product02} />
+        </div>
+        <div className="col-sm-6 col-md-12">
+          <ProductCrudCard product={product02} />
+        </div>
+        <div className="col-sm-6 col-md-12">
+          <ProductCrudCard product={product02} />
+        </div>
+        <div className="col-sm-6 col-md-12">
+          <ProductCrudCard product={product02} />
+        </div>
+      </div>
+    </>
   );
 };
 

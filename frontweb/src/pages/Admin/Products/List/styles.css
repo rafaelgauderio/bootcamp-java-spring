@@ -1,7 +1,35 @@
-.search-bar {
-    padding: 10px;
-    border: 2px solid yellowgreen;
-    border-radius: 10px;
-    text-align: center;
-    margin: 10px 0px;
+.search-bar-product-filter {
+  padding: 20px;
+  text-align: center;
+  margin: 0px 0px 20px 0px;
+}
+
+.btn-crud-add {
+  height: 50px;
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  font-size: 17px;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+@media (min-width: 768px) {
+  .product-crud-search-bar-container {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 30px;
+  }
+
+  .btn-crud-add {
+    height: 65px;
+    margin: 0px;
+  }
+
+  .search-bar-product-filter {
+    margin-left: 20px;
+    flex: 1;
+    
+  }
 }
