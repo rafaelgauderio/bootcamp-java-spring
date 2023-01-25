@@ -3,11 +3,9 @@ import ButtonIcon from 'components/ButtonIcon';
 import { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import {
-  getTokenData,
-  requestBackendLogin,
-  saveAuthenticationData,
-} from 'util/requests';
+import { getTokenData } from 'util/auth';
+import { requestBackendLogin } from 'util/requests';
+import { saveAuthenticationData } from 'util/storage';
 
 import './styles.css';
 

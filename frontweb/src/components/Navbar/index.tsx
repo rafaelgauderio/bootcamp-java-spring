@@ -4,13 +4,10 @@ import 'bootstrap/js/src/collapse';
 import history from 'util/history';
 
 import { Link, NavLink } from 'react-router-dom';
-import {
-  getTokenData,
-  isUserAuthenticated,
-  removeAuthenticationData,
-} from 'util/requests';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from 'AuthContext';
+import { getTokenData, isUserAuthenticated } from 'util/auth';
+import { removeAuthenticationData } from 'util/storage';
 
 const NavBar = () => {
   // referência apontada para o contexto global
