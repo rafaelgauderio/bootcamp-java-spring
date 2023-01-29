@@ -1,12 +1,12 @@
 .product-crud-card {
   margin-bottom: 20px;
   transition: transform 0.7s;
+  padding-bottom: 20px;
 }
 
 .product-crud-card:hover {
   transform: scale(1.02);
-  border: 1px solid #407bff;
-  text-align: center;
+  border: 1px solid #407bff;  
 }
 
 .product-crud-card-top-container {
@@ -35,6 +35,27 @@ h6 {
 .product-crud-categories-container  {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   padding: 0px 20px;
+}
+
+.product-crud-card-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  
+}
+
+.product-crud-card-button {
+  width: 120px;
+  height: 42px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.015em;
+}
+
+.product-crud-card-button-delete {
+  margin-right: 10px;
 }
 
