@@ -1,3 +1,7 @@
+.product-crud-container {
+  max-width: 990px;
+}
+
 .search-bar-product-filter {
   padding: 20px;
   text-align: center;

@@ -28,9 +28,9 @@ const List = () => {
     ],
   };
   return (
-    <>
+    <div className="product-crud-container">
       <div className="product-crud-search-bar-container">
-        <Link to="/admin/product/create">
+        <Link to="/admin/products/create">
           <button className="btn btn-primary text-white btn-crud-add">
             Adicionar Novo
           </button>
@@ -62,7 +62,7 @@ const List = () => {
           <ProductCrudCard product={product02} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
