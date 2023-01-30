@@ -1,4 +1,4 @@
-import ProductCrudCard from 'components/ProductCrudCard';
+import ProductCrudCard from 'pages/Admin/Products/ProductCrudCard';
 import { Link } from 'react-router-dom';
 import './styles.css';
 
@@ -18,15 +18,19 @@ const List = () => {
         name: 'Livros',
       },
       {
+        id: 2,
+        name: 'Eletrônicos',
+      },
+      {
         id: 3,
         name: 'Computadores',
       },
     ],
   };
   return (
-    <>
+    <div className="product-crud-container">
       <div className="product-crud-search-bar-container">
-        <Link to="/admin/product/create">
+        <Link to="/admin/products/create">
           <button className="btn btn-primary text-white btn-crud-add">
             Adicionar Novo
           </button>
@@ -58,7 +62,7 @@ const List = () => {
           <ProductCrudCard product={product02} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
