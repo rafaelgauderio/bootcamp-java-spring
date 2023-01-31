@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
@@ -34,6 +35,7 @@ public class ProductDTO implements Serializable {
 	@PastOrPresent(message = "Data não pode ser superior a data atual")
 	private Instant date;
 	
+	@NotEmpty(message = "Obritário informar a categoria do Produto")
 	private List<CategoryDTO> categories = new ArrayList<>();
 	
 	public ProductDTO() {

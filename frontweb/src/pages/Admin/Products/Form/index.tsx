@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 import { Product } from 'types/product';
 import { requestBackend } from 'util/requests';
 import './styles.css';
@@ -7,21 +8,37 @@ import './styles.css';
 const Form = () => {
   const {
     register, // configurar o formulario para receber os parametros register e errors
-    handleSubmit,
+    handleSubmit, // o que fazer ao clicar em salvar um produto novo
     formState: { errors },
   } = useForm<Product>();
 
+  const history = useHistory();
+
   const onSubmit = (formData: Product) => {
+    // passando um lista de categoria hardCore temporariamente
+    // passando o link da imagem hardcore
+    const data = {
+      ...formData,
+      imgURL:
+        'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg',
+      categories: [{ id: 1, name: 'Categoria Teste' }],      
+    };
+
     const config: AxiosRequestConfig = {
       method: 'POST',
       url: '/products',
-      data: formData,
+      data: data,
       withCredentials: true, //necessário estar autenticado para fazer um POST de um produto novo
     };
 
     requestBackend(config).then((resposta) => {
       console.log(resposta.data);
     });
+  };
+
+  const handleCancelar = () => {
+    // vai levar para um rota progamaticamente, volta para a rora de produtos se cancelar a criação de produto
+    history.push('/admin/products');
   };
 
   return (
@@ -56,25 +73,56 @@ const Form = () => {
                 </div>
               </div>
               <div className="margin-botton-25px">
-                <input type="text" className="base-input form-control"></input>
-              </div>
-
-              <div>
-                <input type="text" className="base-input form-control"></input>
+                <input
+                  {...register('price', {
+                    required: 'Campo obrigatório ',
+                    minLength: {
+                      value: 2,
+                      message: 'Mínimo de 1 caracteres',
+                    },
+                    maxLength: {
+                      value: 10,
+                      message: 'Máximo de 10 caracteres',
+                    },
+                  })}
+                  type="text"
+                  className={`form-control base-input ${
+                    errors.name ? 'is-invalid' : ''
+                  }`}
+                  placeholder="Preço unitário"
+                  name="price"
+                />
+                <div className="invalid-feedback d-block">
+                  {errors.price?.message}
+                </div>
               </div>
             </div>
             <div className="col-lg-6">
-              <textarea
-                className="base-input form-control h-auto"
-                name=""
-                id=""
-                cols={25}
-                rows={15}
-              ></textarea>
+              <div>
+                <textarea
+                  cols={25}
+                  rows={15}
+                  {...register('description', {
+                    required: 'Campo obrigatório',
+                  })}
+                  className={`base-input form-control h-auto ${
+                    errors.name ? 'is-invalid' : ''
+                  }`}
+                  name="description"
+                  id=""
+                  placeholder="Descrição do Produto"
+                ></textarea>
+                <div className="invalid-feedback d-block">
+                  {errors.description?.message}
+                </div>
+              </div>
             </div>
           </div>
           <div className="product-crud-buttons-container">
-            <button className="btn btn-outline-danger product-crud-button">
+            <button
+              onClick={handleCancelar}
+              className="btn btn-outline-danger product-crud-button"
+            >
               CANCELAR
             </button>
             <button className="btn btn-primary text-white product-crud-button">
