@@ -9,7 +9,7 @@ import { saveAuthenticationData } from 'util/storage';
 
 import './styles.css';
 
-type FormData = {
+type CredentialsDTO = {
   username: string;
   password: string;
 };
@@ -31,12 +31,12 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<CredentialsDTO>();
   // para fazer mudanças de rotas progamaticamente
 
   const historyLogin = useHistory();
 
-  const functionOnSubmit = (formInputData: FormData) => {
+  const functionOnSubmit = (formInputData: CredentialsDTO) => {
     requestBackendLogin(formInputData)
       .then((response) => {
         //console.log("login com SUCESSO", response);
