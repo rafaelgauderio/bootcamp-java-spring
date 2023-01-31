@@ -6,20 +6,36 @@ const Form = () => {
       <div className="base-card product-crud-form-card">
         <h1 className="product-crud-form-card-title">CADASTRAR PRODUTO</h1>
         <form action="">
-          <div className="row">
-            <div className="col-lg-6">
-              <input type="text" className="base-input form-control"></input>
-              <input type="text" className="base-input form-control"></input>
-              <input type="text" className="base-input form-control"></input>
-              <input type="text" className="base-input form-control"></input>              
+          <div className="row product-crud-inputs-container">
+            <div className="col-lg-6 product-crud-inputs-left-container">
+              <div className="margin-botton-25px">
+                <input type="text" className="base-input form-control"></input>
+              </div>
+              <div className="margin-botton-25px">
+                <input type="text" className="base-input form-control"></input>
+              </div>
+
+              <div>
+                <input type="text" className="base-input form-control"></input>
+              </div>
             </div>
             <div className="col-lg-6">
-              <textarea className="base-input form-control" name="" id="" cols={25} rows={20}></textarea>
+              <textarea
+                className="base-input form-control h-auto"
+                name=""
+                id=""
+                cols={25}
+                rows={15}
+              ></textarea>
             </div>
           </div>
-          <div>
-            <button className="btn btn-outline-danger">CANCELAR</button>
-            <button className="btn btn-outline-primary">SALVAR</button>
+          <div className="product-crud-buttons-container">
+            <button className="btn btn-outline-danger product-crud-button">
+              CANCELAR
+            </button>
+            <button className="btn btn-primary text-white product-crud-button">
+              SALVAR
+            </button>
           </div>
         </form>
       </div>
