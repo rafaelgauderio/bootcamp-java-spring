@@ -32,7 +32,8 @@ const Form = () => {
     };
 
     requestBackend(config).then((resposta) => {
-      console.log(resposta.data);
+      // após salvar direcinar para a rota de produtos
+      history.push('/admin/products');
     });
   };
 
