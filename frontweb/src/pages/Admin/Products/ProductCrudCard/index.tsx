@@ -8,9 +8,11 @@ import { requestBackend } from 'util/requests';
 
 type Props = {
   product: Product;
+  //adicionando um Prop que é um evento
+  onDelete : Function;
 };
 
-const ProductCrudCard = ({ product }: Props) => {
+const ProductCrudCard = ({ product, onDelete }: Props) => {
   // função para deleter um produto
   const handleDelete = (productId: number) => {
     if (
@@ -27,7 +29,8 @@ const ProductCrudCard = ({ product }: Props) => {
     };
 
     requestBackend(config).then(() => {
-      console.log('Deletando produto por id: ' + productId);
+      //console.log('Deletando produto por id: ' + productId);
+      onDelete(); // após deleter um produto rendezi a tela sem esse produto
     });
   };
 

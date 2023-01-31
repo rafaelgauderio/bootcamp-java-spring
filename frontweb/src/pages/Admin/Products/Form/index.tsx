@@ -41,6 +41,7 @@ const Form = () => {
 
   const history = useHistory();
 
+  // função para editar ou inserir um produto novo
   const onSubmit = (formData: Product) => {
     // passando um lista de categoria hardCore temporariamente
     // passando o link da imagem hardcore

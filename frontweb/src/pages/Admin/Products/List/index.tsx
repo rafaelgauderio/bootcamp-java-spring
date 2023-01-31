@@ -10,7 +10,11 @@ import './styles.css';
 const List = () => {
   const [page, setPage] = useState<SpringPage<Product>>();
 
-  useEffect(() => {
+  // essência do padrão de projetos observer
+  // fazer um componente que permite que permite outros componentes escrevam no evento dele
+
+  //sempre que deleter um produto vai buscar a lista atualiza do backend
+  const getProducts = () => {
     const params: AxiosRequestConfig = {
       method: 'GET',
       url: '/products',
@@ -23,6 +27,10 @@ const List = () => {
     requestBackend(params).then((response) => {
       setPage(response.data);
     });
+  };
+
+  useEffect(() => {
+    getProducts();
   }, []);
 
   return (
@@ -40,7 +48,12 @@ const List = () => {
       <div className="row">
         {page?.content.map((produto) => (
           <div key={produto.id} className="col-sm-6 col-md-12">
-            <ProductCrudCard product={produto} />
+            <ProductCrudCard
+              product={produto}
+              onDelete={() => {
+                getProducts();
+              }}
+            />
           </div>
         ))}
       </div>
