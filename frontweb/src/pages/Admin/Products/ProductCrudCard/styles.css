@@ -90,6 +90,7 @@ h6 {
   .product-crud-card-top-container {
     border-right: 2px solid #e1e1e1;
     border-bottom: 0px;
+    width: 210px
   }
 
   .product-crud-card-top-container img {

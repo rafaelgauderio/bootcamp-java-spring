@@ -9,7 +9,7 @@ import { saveAuthenticationData } from 'util/storage';
 
 import './styles.css';
 
-type FormData = {
+type CredentialsDTO = {
   username: string;
   password: string;
 };
@@ -31,12 +31,12 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<CredentialsDTO>();
   // para fazer mudanças de rotas progamaticamente
 
   const historyLogin = useHistory();
 
-  const functionOnSubmit = (formInputData: FormData) => {
+  const functionOnSubmit = (formInputData: CredentialsDTO) => {
     requestBackendLogin(formInputData)
       .then((response) => {
         //console.log("login com SUCESSO", response);
@@ -64,8 +64,9 @@ const Login = () => {
       <h1>LOGAR</h1>
       {hasLoginError && (
         <div className="alert alert-danger text-center">
-          Erro ao tentar realizar Login!
-        </div>
+          Erro ao tentar realizar Login!<br></br>  
+          Usuário ou senha inválidos                  
+       </div>
       )}
       <form onSubmit={handleSubmit(functionOnSubmit)}>
         <div className="mb-4">
