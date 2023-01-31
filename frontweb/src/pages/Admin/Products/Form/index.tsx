@@ -1,16 +1,43 @@
 import { AxiosRequestConfig } from 'axios';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Product } from 'types/product';
 import { requestBackend } from 'util/requests';
 import './styles.css';
 
+type UrlParams = {
+  productId: string;
+};
+
 const Form = () => {
+  const { productId } = useParams<UrlParams>();
+
+  // variável booleana para ver se está inserindo(create) ou se está editando(productId) de acordo com o parâmetro da rota
+  const isEditing = productId !== 'create';
+
   const {
     register, // configurar o formulario para receber os parametros register e errors
     handleSubmit, // o que fazer ao clicar em salvar um produto novo
     formState: { errors },
+    setValue,
   } = useForm<Product>();
+  //fazendo um requisição não autenticada
+  useEffect(() => {
+    if (isEditing === true) {
+      requestBackend({
+        url: `/products/${productId}`,
+      }).then((resposta) => {
+        const product = resposta.data as Product; // fazendo o casting para não ter problema de tipagem
+        // setando os novos valores
+        setValue('name', product.name);
+        setValue('price', product.price);
+        setValue('imgURL', product.imgURL);
+        setValue('description', product.description);
+        setValue('categories', product.categories);
+      });
+    }
+  }, [isEditing, productId, setValue]);
 
   const history = useHistory();
 
@@ -19,14 +46,19 @@ const Form = () => {
     // passando o link da imagem hardcore
     const data = {
       ...formData,
-      imgURL:
-        'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg',
-      categories: [{ id: 1, name: 'Categoria Teste' }],      
+      imgURL: isEditing
+        ? formData.imgURL //só vai inserir a ImgUrl abaixo senão estiver editando
+        : 'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg',
+      categories: isEditing
+        ? formData.categories
+        : [{ id: 1, name: 'Categoria Teste' }],
     };
 
     const config: AxiosRequestConfig = {
-      method: 'POST',
-      url: '/products',
+      // testar se método está Editando(PUT) ou salvando(POST)
+      method: isEditing ? 'PUT' : 'POST',
+      // se estiver editando pega o ID do produto, senão o JPA cria um novo Id
+      url: isEditing ? `/products/${productId}` : '/products',
       data: data,
       withCredentials: true, //necessário estar autenticado para fazer um POST de um produto novo
     };
