@@ -64,8 +64,9 @@ const Login = () => {
       <h1>LOGAR</h1>
       {hasLoginError && (
         <div className="alert alert-danger text-center">
-          Erro ao tentar realizar Login!
-        </div>
+          Erro ao tentar realizar Login!<br></br>  
+          Usuário ou senha inválidos                  
+       </div>
       )}
       <form onSubmit={handleSubmit(functionOnSubmit)}>
         <div className="mb-4">
