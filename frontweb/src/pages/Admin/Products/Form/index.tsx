@@ -6,12 +6,19 @@ import { Product } from 'types/product';
 import { requestBackend } from 'util/requests';
 import Swal from 'sweetalert2';
 import './styles.css';
+import Select from 'react-select';
 
 type UrlParams = {
   productId: string;
 };
 
 const Form = () => {
+  const options = [
+    { value: 'Livros', label: 'Livros' },
+    { value: 'Eletrôncicos', label: 'Eletrônicos' },
+    { value: 'Computadores', label: 'Computadores' },
+  ];
+
   const { productId } = useParams<UrlParams>();
 
   // variável booleana para ver se está inserindo(create) ou se está editando(productId) de acordo com o parâmetro da rota
@@ -133,6 +140,15 @@ const Form = () => {
                   {errors.name?.message}
                 </div>
               </div>
+
+              <div className="margin-botton-25px">
+                <Select                 
+                options={options}
+                isMulti={true}
+                classNamePrefix="product-crud-select"
+                placeholder="Categoria do Produto" />
+              </div>
+
               <div className="margin-botton-25px">
                 <input
                   {...register('price', {

@@ -39,7 +39,7 @@ const ProductCrudCard = ({ product, onDelete }: Props) => {
           //console.log('Deletando produto por id: ' + productId);
           onDelete(); // após deleter um produto rendezi a tela sem esse produto
         });
-        Swal.fire('Excluido', 'Produto excluído com sucesso', 'success');
+        Swal.fire('Excluído', 'Produto excluído com sucesso', 'success');
       } else if (resultado.isDenied || resultado.isDismissed) {
         Swal.fire(
           'Cancelada',
