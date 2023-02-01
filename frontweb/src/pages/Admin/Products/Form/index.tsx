@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import './styles.css';
 import Select from 'react-select';
 import { Category } from 'types/category';
+import CurrencyInput from 'react-currency-input-field';
 
 type UrlParams = {
   productId: string;
@@ -62,15 +63,10 @@ const Form = () => {
   const onSubmit = (formData: Product) => {
     // passando um lista de categoria hardCore temporariamente
     // passando o link da imagem hardcore
-    const data = {
-      ...formData,
-      imgURL: isEditing
-        ? formData.imgURL //só vai inserir a ImgUrl abaixo senão estiver editando
-        : 'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg',
-      categories: isEditing
-        ? formData.categories
-        : [{ id: 1, name: 'Categoria Teste' }],
-    };
+
+    const data = {...formData, price: String(formData.price).replace(",",".")
+
+    }
 
     Swal.fire({
       title: '<strong>INSERÇÃO/EDIÇÃO DE PRODUTO</strong>',
@@ -171,33 +167,65 @@ const Form = () => {
                 />
                 {errors.categories && (
                   <div className="invalid-feedback d-block">
-                  <p>Campo Obrigatório</p>
-                </div>
+                    <p>Campo Obrigatório</p>
+                  </div>
                 )}
               </div>
 
               <div className="margin-botton-25px">
+              <Controller                  
+                  name="price"
+                  control={control}
+                  rules={{ required: 'Campo obrigatório' }}
+                  render={({ field }) => (
+                    <CurrencyInput
+                    intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
+                      placeholder="Preço Unitário"
+                      className={`form-control base-input ${
+                        errors.name ? 'is-invalid' : ''
+                      }`}  
+                      
+                      decimalsLimit={2}                    
+                      maxLength={15}                    
+                      disableGroupSeparators={true}                     
+                      allowNegativeValue={false}                      
+                      decimalSeparator={","|| "."}
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    />
+                  )}
+                />
+                <div className="invalid-feedback d-block">
+                  {errors.price?.message}
+                </div>
+              </div>
+
+              <div className="margin-botton-25px">
                 <input
-                  {...register('price', {
+                  {...register('imgURL', {
                     required: 'Campo obrigatório ',
                     minLength: {
-                      value: 2,
-                      message: 'Mínimo de 1 caracteres',
+                      value: 3,
+                      message: 'Mínimo de 3 caracteres',
                     },
                     maxLength: {
-                      value: 10,
-                      message: 'Máximo de 10 caracteres',
+                      value: 100,
+                      message: 'Máximo de 100 caracteres',
+                    },
+                    pattern: {
+                      value: /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/gm,
+                      message: 'Url inválida. Favor informar um link válido.',
                     },
                   })}
                   type="text"
                   className={`form-control base-input ${
                     errors.name ? 'is-invalid' : ''
                   }`}
-                  placeholder="Preço unitário"
-                  name="price"
+                  placeholder="Link da imagem do Produto"
+                  name="imgURL"
                 />
                 <div className="invalid-feedback d-block">
-                  {errors.price?.message}
+                  {errors.imgURL?.message}
                 </div>
               </div>
             </div>
