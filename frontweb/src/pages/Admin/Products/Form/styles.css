@@ -34,6 +34,22 @@
   font-weight: 700;
 }
 
+.product-crud-select__control {
+  height: 60px;
+  border-radius: 10px !important;
+  font-size: 1em;
+  letter-spacing: -0.015em;
+  color: #263239;
+}
+
+.product-crud-select__indicator-separator {
+  display: none;
+}
+
+.product-crud-select__placeholder {
+  color: #8e8e8e !important;
+}
+
 @media (min-width: 576px) {
   .product-crud-buttons-container {
     justify-content: flex-end;
