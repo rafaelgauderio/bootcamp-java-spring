@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
-import { set, useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
 import { Product } from 'types/product';
 import { requestBackend } from 'util/requests';
@@ -8,7 +8,6 @@ import Swal from 'sweetalert2';
 import './styles.css';
 import Select from 'react-select';
 import { Category } from 'types/category';
-import { request } from 'http';
 
 type UrlParams = {
   productId: string;
@@ -28,6 +27,7 @@ const Form = () => {
     handleSubmit, // o que fazer ao clicar em salvar um produto novo
     formState: { errors },
     setValue,
+    control, // objeto de controlle de uso interno do useForm
   } = useForm<Product>();
 
   //useEffect para buscar da backend as categorias e armazenar no useState de selectCategories
@@ -151,14 +151,29 @@ const Form = () => {
               </div>
 
               <div className="margin-botton-25px">
-                <Select
-                  options={selectCategories}
-                  isMulti={true}
-                  classNamePrefix="product-crud-select"
-                  placeholder="Categoria do Produto"
-                  getOptionLabel={(categoria: Category) => categoria.name}
-                  getOptionValue={(categoria: Category) => String(categoria.id)}
+                <Controller
+                  name="categories"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={selectCategories}
+                      isMulti={true}
+                      classNamePrefix="product-crud-select"
+                      placeholder="Categoria do Produto"
+                      getOptionLabel={(categoria: Category) => categoria.name}
+                      getOptionValue={(categoria: Category) =>
+                        String(categoria.id)
+                      }
+                    />
+                  )}
                 />
+                {errors.categories && (
+                  <div className="invalid-feedback d-block">
+                  <p>Campo Obrigatório</p>
+                </div>
+                )}
               </div>
 
               <div className="margin-botton-25px">
