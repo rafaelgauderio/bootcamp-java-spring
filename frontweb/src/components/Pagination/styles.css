@@ -6,8 +6,13 @@
   color: #407bff;
 }
 
+.arrow-previus {
+  color: #407bff;
+}
+
 .arrow-next {
   transform: rotate(-180deg);
+  color: #407bff;
 }
 
 .pagination-container {
@@ -34,5 +39,9 @@
 }
 
 .pagination-item.actived {
+  background-color: #407bff;
+}
+
+.pagination-link-active {
   background-color: #407bff;
 }

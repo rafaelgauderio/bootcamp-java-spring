@@ -37,3 +37,9 @@ h6 {
 .base-input::placeholder {
     color: #8E8E8E;
 }
+
+ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
