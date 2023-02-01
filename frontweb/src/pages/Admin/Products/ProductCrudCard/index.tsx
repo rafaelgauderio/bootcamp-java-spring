@@ -5,32 +5,48 @@ import CategoryBadge from '../CategoryBadge';
 import { Link } from 'react-router-dom';
 import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
+import Swal from 'sweetalert2';
 
 type Props = {
   product: Product;
   //adicionando um Prop que é um evento
-  onDelete : Function;
+  onDelete: Function;
 };
 
 const ProductCrudCard = ({ product, onDelete }: Props) => {
   // função para deleter um produto
   const handleDelete = (productId: number) => {
-    if (
-      window.confirm('Confirma exclusão do Produto ' + product.name) ===
-      false
-    ) {
-      return;
-    }
+    Swal.fire({
+      title: '<strong>EXCLUSÃO DE PRODUTO</strong>',
+      icon: 'warning',
+      html: '<p>Excluir um produto é uma operação que não poderá ser desfeita</p>',
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: true,
+      confirmButtonText: '<i class="fa fa-thumbs-up">Confirmar</i> ',
+      confirmButtonAriaLabel: 'Thumbs up',
+      cancelButtonText: '<i class="fa fa-thumbs-down">Cancelar</i>',
+      cancelButtonAriaLabel: 'Thumbs down',
+    }).then((resultado) => {
+      if (resultado.isConfirmed) {
+        const config: AxiosRequestConfig = {
+          method: 'DELETE',
+          url: `products/${productId}`,
+          withCredentials: true,
+        };
 
-    const config: AxiosRequestConfig = {
-      method: 'DELETE',
-      url: `products/${productId}`,
-      withCredentials: true,
-    };
-
-    requestBackend(config).then(() => {
-      //console.log('Deletando produto por id: ' + productId);
-      onDelete(); // após deleter um produto rendezi a tela sem esse produto
+        requestBackend(config).then(() => {
+          //console.log('Deletando produto por id: ' + productId);
+          onDelete(); // após deleter um produto rendezi a tela sem esse produto
+        });
+        Swal.fire('Excluido', 'Produto excluído com sucesso', 'success');
+      } else if (resultado.isDenied || resultado.isDismissed) {
+        Swal.fire(
+          'Cancelada',
+          'Exclusão cancelada. Nada foi alterado no banco de dados',
+          'info'
+        );
+      }
     });
   };
 
