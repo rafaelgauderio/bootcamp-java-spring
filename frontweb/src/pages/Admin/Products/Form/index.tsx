@@ -1,23 +1,22 @@
 import { AxiosRequestConfig } from 'axios';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { set, useForm } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
 import { Product } from 'types/product';
 import { requestBackend } from 'util/requests';
 import Swal from 'sweetalert2';
 import './styles.css';
 import Select from 'react-select';
+import { Category } from 'types/category';
+import { request } from 'http';
 
 type UrlParams = {
   productId: string;
 };
 
 const Form = () => {
-  const options = [
-    { value: 'Livros', label: 'Livros' },
-    { value: 'Eletrôncicos', label: 'Eletrônicos' },
-    { value: 'Computadores', label: 'Computadores' },
-  ];
+  // lista de categorias vindo do backend, iniciando com lista vazia
+  const [selectCategories, setSelectCategories] = useState<Category[]>([]);
 
   const { productId } = useParams<UrlParams>();
 
@@ -30,6 +29,16 @@ const Form = () => {
     formState: { errors },
     setValue,
   } = useForm<Product>();
+
+  //useEffect para buscar da backend as categorias e armazenar no useState de selectCategories
+  // é possível ter mais de um userEffect por componente
+  // useEffect tem 2 parãmetros, uma função para setar o estado e uma lista de dependências
+  useEffect(() => {
+    requestBackend({ url: '/categories' }).then((resposta) => {
+      setSelectCategories(resposta.data.content); //como retorna uma lista paginada precisa pegar o content da lista
+    });
+  }, []);
+
   //fazendo um requisição não autenticada
   useEffect(() => {
     if (isEditing === true) {
@@ -142,11 +151,14 @@ const Form = () => {
               </div>
 
               <div className="margin-botton-25px">
-                <Select                 
-                options={options}
-                isMulti={true}
-                classNamePrefix="product-crud-select"
-                placeholder="Categoria do Produto" />
+                <Select
+                  options={selectCategories}
+                  isMulti={true}
+                  classNamePrefix="product-crud-select"
+                  placeholder="Categoria do Produto"
+                  getOptionLabel={(categoria: Category) => categoria.name}
+                  getOptionValue={(categoria: Category) => String(categoria.id)}
+                />
               </div>
 
               <div className="margin-botton-25px">
