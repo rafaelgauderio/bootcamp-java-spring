@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
 import { Product } from 'types/product';
 import { requestBackend } from 'util/requests';
+import Swal from 'sweetalert2';
 import './styles.css';
 
 type UrlParams = {
@@ -55,23 +56,49 @@ const Form = () => {
         : [{ id: 1, name: 'Categoria Teste' }],
     };
 
-    const config: AxiosRequestConfig = {
-      // testar se método está Editando(PUT) ou salvando(POST)
-      method: isEditing ? 'PUT' : 'POST',
-      // se estiver editando pega o ID do produto, senão o JPA cria um novo Id
-      url: isEditing ? `/products/${productId}` : '/products',
-      data: data,
-      withCredentials: true, //necessário estar autenticado para fazer um POST de um produto novo
-    };
+    Swal.fire({
+      title: '<strong>INSERÇÃO/EDIÇÃO DE PRODUTO</strong>',
+      icon: 'info',
+      html: '<p>Confirma a inserção/edição do produto</p>',
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: true,
+      confirmButtonText: '<i class="fa fa-thumbs-up">Confirmar</i> ',
+      confirmButtonAriaLabel: 'Thumbs up',
+      cancelButtonText: '<i class="fa fa-thumbs-down">Cancelar</i>',
+      cancelButtonAriaLabel: 'Thumbs down',
+    }).then((resultado) => {
+      if (resultado.isConfirmed === true) {
+        const config: AxiosRequestConfig = {
+          // testar se método está Editando(PUT) ou salvando(POST)
+          method: isEditing ? 'PUT' : 'POST',
+          // se estiver editando pega o ID do produto, senão o JPA cria um novo Id
+          url: isEditing ? `/products/${productId}` : '/products',
+          data: data,
+          withCredentials: true, //necessário estar autenticado para fazer um POST de um produto novo
+        };
 
-    requestBackend(config).then((resposta) => {
-      // após salvar direcinar para a rota de produtos
-      history.push('/admin/products');
+        requestBackend(config).then((resposta) => {
+          // após salvar direcinar para a rota de produtos
+          history.push('/admin/products');
+        });
+        Swal.fire(
+          'SUCESSO',
+          'Produto criado ou editado com sucesso',
+          'success'
+        );
+      } else if (resultado.dismiss || resultado.isDenied) {
+        handleCancelar();
+      }
     });
   };
 
   const handleCancelar = () => {
-    // vai levar para um rota progamaticamente, volta para a rora de produtos se cancelar a criação de produto
+    Swal.fire(
+      'Cancelada',
+      'Operação cancelada. Nada foi alterado no banco de dados',
+      'info'
+    );
     history.push('/admin/products');
   };
 
