@@ -1,19 +1,43 @@
 import { ReactComponent as ArrowIcon } from 'assets/images/arrow.svg';
+import ReactPaginate from 'react-paginate';
 
 import './styles.css';
 
-const Pagination = () => {
+type Props = {
+  range: number;
+  pageCount: number;
+  onChange?: (pageNumber: number) => void; //tipar função para ter um typesafe
+};
+
+const Pagination = ({ pageCount, range, onChange }: Props) => {
   return (
-    <div className="pagination-container">
-      <ArrowIcon className="arrow-inactive arrow-previus"></ArrowIcon>
-        <div className="pagination-item actived">1</div>
-        <div className="pagination-item">2</div>
-        <div className="pagination-item">3</div>
-        <div className="pagination-item">4</div>
-        <div className="pagination-item">...</div>
-        <div className="pagination-item">9</div> 
-       <ArrowIcon className="arrow-active arrow-next"></ArrowIcon>           
-    </div>
+    <ReactPaginate
+      pageCount={pageCount}
+      pageRangeDisplayed={range}
+      marginPagesDisplayed={1}
+      pageLinkClassName="pagination-item"
+      containerClassName="pagination-container"
+      breakClassName="pagination-item"
+      activeLinkClassName="pagination-link-active"
+      disabledClassName="arrow-inactive"
+      previousClassName="arrow-previus"
+      nextClassName="arrow-next"
+      onPageChange={(itemsDaPaginacao) =>
+        onChange ? onChange(itemsDaPaginacao.selected) : {}
+      }
+      // pegar o número de página alterada no ReactPaginate
+      // if ternário para tratar caso do objeto onChange ser undefined
+      previousLabel={
+        <div className="pagination-arrow-container">
+          <ArrowIcon />
+        </div>
+      }
+      nextLabel={
+        <div className="pagination-arrow-container">
+          <ArrowIcon />
+        </div>
+      }
+    />
   );
 };
 
