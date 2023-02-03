@@ -33,13 +33,12 @@ const Catalog = () => {
   const [page, setPage] = useState<SpringPage<Product>>();
   const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect tem 2 argumentos: a função dentro das chaves e as dependências dentro dos colchetes
-  useEffect(() => {
+  const getProducts = (pageNumber: number) => {
     const params: AxiosRequestConfig = {
       method: 'GET',
       url: '/products',
       params: {
-        page: 0,
+        page: pageNumber,
         size: 12,
       },
     };
@@ -54,6 +53,11 @@ const Catalog = () => {
       .finally(() => {
         setIsLoading(false);
       });
+  };
+
+  // useEffect tem 2 argumentos: a função dentro das chaves e as dependências dentro dos colchetes
+  useEffect(() => {
+    getProducts(0); // quando o componente for mostrado, montar a página de número zero
   }, []);
 
   return (
@@ -77,7 +81,11 @@ const Catalog = () => {
         )}
       </div>
       <div className="row">
-        <Pagination></Pagination>
+        <Pagination
+          pageCount={page ? page.totalPages : 0}
+          range={3}
+          onChange={getProducts}
+        />
       </div>
     </div>
   );
