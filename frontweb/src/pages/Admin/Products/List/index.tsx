@@ -7,6 +7,7 @@ import { requestBackend } from 'util/requests';
 import { AxiosRequestConfig } from 'axios';
 import './styles.css';
 import Pagination from 'components/Pagination';
+import ProductFilter from 'components/ProductFilter';
 
 type ControlComponentsData = {
   activePage: number;
@@ -61,9 +62,7 @@ const List = () => {
             Adicionar Novo
           </button>
         </Link>
-        <div className="base-card search-bar-product-filter">
-          Barra de Busca
-        </div>
+        <ProductFilter />
       </div>
       <div className="row">
         {page?.content.map((produto) => (
