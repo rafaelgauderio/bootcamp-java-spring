@@ -1,5 +1,5 @@
 import ProductCrudCard from 'pages/Admin/Products/ProductCrudCard';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from 'types/product';
 import { SpringPage } from 'types/vendor/spring';
@@ -30,8 +30,8 @@ const List = () => {
     setControlComponentsData({ activePage: pageNumber }); // atualizar o estado que componente retornar
   };
 
-  // use Effect roda sempre que o componente é montando e quando as dependências do componente forem alteradas
-  useEffect(() => {
+  // useCallback tem um função e lista de dependências como argumentos
+  const getProducs = useCallback(() => {
     const params: AxiosRequestConfig = {
       method: 'GET',
       url: '/products',
@@ -45,6 +45,13 @@ const List = () => {
       setPage(response.data);
     });
   }, [controlComponentsData]);
+
+  // use Effect roda sempre que o componente é montando e quando as dependências do componente forem alteradas
+  useEffect(() => {
+    getProducs();
+  }, [getProducs]);
+  // colocar função dentro do useEffect e como dependência gera um loop infinito
+  // usar o hook useCallback para evitar isso. Se for a mesma referência da função, ele não chama a função novamente
 
   return (
     <div className="product-crud-container">
@@ -61,7 +68,7 @@ const List = () => {
       <div className="row">
         {page?.content.map((produto) => (
           <div key={produto.id} className="col-sm-6 col-md-12">
-            <ProductCrudCard product={produto} onDelete={() => {}} />
+            <ProductCrudCard product={produto} onDelete={getProducs} />
           </div>
         ))}
       </div>
