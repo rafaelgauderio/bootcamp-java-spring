@@ -2,11 +2,6 @@
   max-width: 990px;
 }
 
-.search-bar-product-filter {
-  padding: 20px;
-  text-align: center;
-  margin: 0px 0px 20px 0px;
-}
 
 .btn-crud-add {
   height: 50px;
@@ -20,6 +15,7 @@
 }
 
 @media (min-width: 768px) {
+  
   .product-crud-search-bar-container {
     display: flex;
     flex-direction: row;
@@ -30,10 +26,5 @@
     height: 65px;
     margin: 0px;
   }
-
-  .search-bar-product-filter {
-    margin-left: 20px;
-    flex: 1;
-    
-  }
+ 
 }
