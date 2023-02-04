@@ -38,7 +38,7 @@ const List = () => {
       url: '/products',
       params: {
         page: controlComponentsData.activePage,
-        size: 5,
+        size: 6,
       },
     };
 

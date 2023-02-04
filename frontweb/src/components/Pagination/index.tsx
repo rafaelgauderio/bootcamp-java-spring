@@ -22,6 +22,7 @@ const Pagination = ({ pageCount, range, onChange }: Props) => {
       disabledClassName="arrow-inactive"
       previousClassName="arrow-previus"
       nextClassName="arrow-next"
+      disabledLinkClassName='arrow-inactive'      
       onPageChange={(itemsDaPaginacao) =>
         onChange ? onChange(itemsDaPaginacao.selected) : {}
       }
