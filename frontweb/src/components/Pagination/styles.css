@@ -1,5 +1,10 @@
 .arrow-inactive {
   color: #e1e1e1;
+  cursor:text;
+}
+.arrow-inactive:hover {
+  color: #e1e1e1;
+  cursor:text;
 }
 
 .arrow-active {

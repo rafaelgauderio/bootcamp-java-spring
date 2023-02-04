@@ -14,7 +14,7 @@ type ProductFilterData = {
 
 const ProductFilter = () => {
 
-    // estado que armazena uma lista de categorias buscandas do backend
+  // estado que armazena uma lista de categorias buscandas do backend
   const [selectCategories, setSelectCategories] = useState<Category[]>([]);
 
   const { register, handleSubmit, control } = useForm<ProductFilterData>();
@@ -40,7 +40,7 @@ const ProductFilter = () => {
             type="text"
             placeholder="Nome do Produto"
           />
-          <button>
+          <button className="product-filter-search-icon">
             <SearchIcon />
           </button>
         </div>
@@ -53,8 +53,8 @@ const ProductFilter = () => {
                 <Select
                   {...field}
                   options={selectCategories}
-                  classNamePrefix="product-crud-select"
-                  placeholder="Categoria do Produto"
+                  classNamePrefix="product-filter-select"
+                  placeholder="Categoria"
                   isClearable={true}
                   getOptionLabel={(category: Category) => category.name}
                   getOptionValue={(category: Category) => String(category.id)}
@@ -62,7 +62,7 @@ const ProductFilter = () => {
               )}
             />
           </div>
-          <button className="btn btn-outline-secondary">Limpar</button>
+          <button className="btn btn-outline-secondary btn-product-filter-clear">Limpar <span className="btn-product-filter-search">Busca</span></button>
         </div>
       </form>
     </div>
