@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
 import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 
 type Props = {
   product: Product;
@@ -38,9 +39,29 @@ const ProductCrudCard = ({ product, onDelete }: Props) => {
         requestBackend(config).then(() => {
           //console.log('Deletando produto por id: ' + productId);
           onDelete(); // após deleter um produto rendezi a tela sem esse produto
+          toast.success("Produdo Excluído com sucesso", {
+            position: "top-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          Swal.fire('Excluído', 'Produto excluído com sucesso', 'success');
         });
-        Swal.fire('Excluído', 'Produto excluído com sucesso', 'success');
+        
       } else if (resultado.isDenied || resultado.isDismissed) {
+        toast.info("Operação cancelada", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,      
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
         Swal.fire(
           'Cancelada',
           'Exclusão cancelada. Nada foi alterado no banco de dados',

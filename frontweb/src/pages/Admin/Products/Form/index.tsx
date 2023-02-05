@@ -124,6 +124,15 @@ const Form = () => {
   };
 
   const handleCancelar = () => {
+    toast.info("Operação cancelada", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,      
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
     Swal.fire(
       'Cancelada',
       'Operação cancelada. Nada foi alterado no banco de dados',
