@@ -3,16 +3,21 @@ import './styles.css';
 import { ReactComponent as SearchIcon } from 'assets/images/search-icon.svg';
 import { Category } from 'types/category';
 import { Controller, useForm } from 'react-hook-form';
-import Select, { SingleValue } from 'react-select';
+import Select from 'react-select';
 import { useEffect, useState } from 'react';
 import { requestBackend } from 'util/requests';
 
-type ProductFilterData = {
+type Props = {
+  onSubmitFilter : (data : ProductFilterData) => void;
+}
+
+// vai usar esse tipo no component List
+export type ProductFilterData = {
   name: string;
   category: Category | null;
 };
 
-const ProductFilter = () => {
+const ProductFilter = ( {onSubmitFilter} : Props) => {
 
   // estado que armazena uma lista de categorias buscandas do backend
   const [selectCategories, setSelectCategories] = useState<Category[]>([]);
@@ -20,7 +25,8 @@ const ProductFilter = () => {
   const { register, handleSubmit, control, setValue, getValues } = useForm<ProductFilterData>();
 
   const onSubmit = (formData: ProductFilterData) => {
-    console.log('REQUISIÇÃO ENVIADA', formData);
+    //console.log('REQUISIÇÃO ENVIADA', formData);
+    onSubmitFilter(formData);
   };
 
   const handleFormClear = () => {
@@ -36,7 +42,6 @@ const ProductFilter = () => {
       name: getValues("name"),
       category: getValues("category")
     }
-
     // enviar o formulário no evento de trocar a categoria selecionada
     console.log("Dados form enviados", object);
   }

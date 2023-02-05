@@ -7,10 +7,11 @@ import { requestBackend } from 'util/requests';
 import { AxiosRequestConfig } from 'axios';
 import './styles.css';
 import Pagination from 'components/Pagination';
-import ProductFilter from 'components/ProductFilter';
+import ProductFilter, { ProductFilterData } from 'components/ProductFilter';
 
 type ControlComponentsData = {
   activePage: number;
+  filterData: ProductFilterData;
 };
 
 const List = () => {
@@ -24,12 +25,23 @@ const List = () => {
   // dos componentes de controle da listagem (paginação e barra de filtragem)
   const [controlComponentsData, setControlComponentsData] =
     useState<ControlComponentsData>({
+      // setar os valores iniciais dos componentes
       activePage: 0,
+      filterData: { name: "", category: null }
     });
 
+  // evento para tratar a altareção de página  
   const handlePageChange = (pageNumber: number) => {
-    setControlComponentsData({ activePage: pageNumber }); // atualizar o estado que componente retornar
+    // mantém o que já estiver no filtre e altera apenas a data
+    setControlComponentsData({ activePage: pageNumber, filterData: controlComponentsData.filterData }); // atualizar o estado que componente retornar
+
   };
+
+  // evento para tratar o filtro
+  const handleSubmitFilter = (data: ProductFilterData) => {
+    // page 0, pois quando for feito um filtro deve voltar para a primeira página, a atualiza apenas o filtro
+    setControlComponentsData({ activePage: 0, filterData: data });
+  }
 
   // useCallback tem um função e lista de dependências como argumentos
   const getProducs = useCallback(() => {
@@ -39,6 +51,8 @@ const List = () => {
       params: {
         page: controlComponentsData.activePage,
         size: 6,
+        name: controlComponentsData.filterData.name,
+        categoryId: controlComponentsData.filterData.category?.id
       },
     };
 
@@ -51,6 +65,7 @@ const List = () => {
   useEffect(() => {
     getProducs();
   }, [getProducs]);
+
   // colocar função dentro do useEffect e como dependência gera um loop infinito
   // usar o hook useCallback para evitar isso. Se for a mesma referência da função, ele não chama a função novamente
 
@@ -62,7 +77,7 @@ const List = () => {
             Adicionar Novo
           </button>
         </Link>
-        <ProductFilter />
+        <ProductFilter onSubmitFilter={handleSubmitFilter} />
       </div>
       <div className="row">
         {page?.content.map((produto) => (
@@ -73,12 +88,13 @@ const List = () => {
       </div>
 
       <Pagination
+        forcePage={page?.number}
         // Componente Pagination retorna apenas um número informando qual é página ativa
         // fazer um if ternário para tratar o caso do page ser undefined
         pageCount={page ? page.totalPages : 0}
         range={3}
         onChange={handlePageChange}
-        // apenas um ponteiro (referência da função) não está chamando a função getProducts()
+      // apenas um ponteiro (referência da função) não está chamando a função getProducts()
       />
     </div>
   );
