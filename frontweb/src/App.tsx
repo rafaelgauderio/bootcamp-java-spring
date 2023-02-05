@@ -1,9 +1,11 @@
-//import Home from 'pages/Home';
 import './assets/styles/custom.scss';
-//import Catalog from 'pages/Home/Catalog';
+import 'react-toastify/dist/ReactToastify.css';
 import Rotas from 'Routes';
 import { AuthContext, AuthContextData } from 'AuthContext';
 import { useState } from 'react';
+// tostfy precisa ser importado apenas uma vez para toda a aplicação
+import { ToastContainer } from 'react-toastify';
+
 
 import './App.css';
 
@@ -20,6 +22,17 @@ function App() {
     // useUsate agora é provisionado por toda a aplicação
     <AuthContext.Provider value={{ authContextData, setAuthContextData }}>
       <Rotas></Rotas>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
     </AuthContext.Provider>
   );
 }

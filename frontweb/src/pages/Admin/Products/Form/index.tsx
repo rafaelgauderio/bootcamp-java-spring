@@ -9,6 +9,7 @@ import './styles.css';
 import Select from 'react-select';
 import { Category } from 'types/category';
 import CurrencyInput from 'react-currency-input-field';
+import { toast } from 'react-toastify';
 
 type UrlParams = {
   productId: string;
@@ -64,7 +65,8 @@ const Form = () => {
     // passando um lista de categoria hardCore temporariamente
     // passando o link da imagem hardcore
 
-    const data = {...formData, price: String(formData.price).replace(",",".")
+    const data = {
+      ...formData, price: String(formData.price).replace(",", ".")
 
     }
 
@@ -91,14 +93,30 @@ const Form = () => {
         };
 
         requestBackend(config).then((resposta) => {
+          // detro do then só executa se tiver resposta sucess (200) do backend
           // após salvar direcinar para a rota de produtos
+          toast.success("Produto criado ou editado com sucesso", {
+            position: "top-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
           history.push('/admin/products');
-        });
-        Swal.fire(
-          'SUCESSO',
-          'Produto criado ou editado com sucesso',
-          'success'
-        );
+          Swal.fire(
+            'SUCESSO',
+            'Produto criado ou editado com sucesso',
+            'success'
+          );
+        })
+          .catch(() => {
+            toast.error("Erro ao tentar cadastrar produto!");
+          });
+
+
       } else if (resultado.dismiss || resultado.isDenied) {
         handleCancelar();
       }
@@ -135,9 +153,8 @@ const Form = () => {
                     },
                   })}
                   type="text"
-                  className={`form-control base-input ${
-                    errors.name ? 'is-invalid' : ''
-                  }`}
+                  className={`form-control base-input ${errors.name ? 'is-invalid' : ''
+                    }`}
                   placeholder="Nome do Produto"
                   name="name"
                 />
@@ -173,23 +190,22 @@ const Form = () => {
               </div>
 
               <div className="margin-botton-25px">
-              <Controller                  
+                <Controller
                   name="price"
                   control={control}
                   rules={{ required: 'Campo obrigatório' }}
                   render={({ field }) => (
                     <CurrencyInput
-                    intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
+                      intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
                       placeholder="Preço Unitário"
-                      className={`form-control base-input ${
-                        errors.name ? 'is-invalid' : ''
-                      }`}  
-                      
-                      decimalsLimit={2}                    
-                      maxLength={15}                    
-                      disableGroupSeparators={true}                     
-                      allowNegativeValue={false}                      
-                      decimalSeparator={","|| "."}
+                      className={`form-control base-input ${errors.name ? 'is-invalid' : ''
+                        }`}
+
+                      decimalsLimit={2}
+                      maxLength={15}
+                      disableGroupSeparators={true}
+                      allowNegativeValue={false}
+                      decimalSeparator={"," || "."}
                       value={field.value}
                       onValueChange={field.onChange}
                     />
@@ -218,9 +234,8 @@ const Form = () => {
                     },
                   })}
                   type="text"
-                  className={`form-control base-input ${
-                    errors.name ? 'is-invalid' : ''
-                  }`}
+                  className={`form-control base-input ${errors.name ? 'is-invalid' : ''
+                    }`}
                   placeholder="Link da imagem do Produto"
                   name="imgURL"
                 />
@@ -237,9 +252,8 @@ const Form = () => {
                   {...register('description', {
                     required: 'Campo obrigatório',
                   })}
-                  className={`base-input form-control h-auto ${
-                    errors.name ? 'is-invalid' : ''
-                  }`}
+                  className={`base-input form-control h-auto ${errors.name ? 'is-invalid' : ''
+                    }`}
                   name="description"
                   id=""
                   placeholder="Descrição do Produto"
