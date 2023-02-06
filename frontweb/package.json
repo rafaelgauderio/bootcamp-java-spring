@@ -6,7 +6,7 @@
     "@popperjs/core": "^2.11.6",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^27.5.2",
     "@types/jwt-decode": "^3.1.0",
     "@types/node": "^16.18.10",
@@ -19,7 +19,7 @@
     "axios": "^1.2.2",
     "bootstrap": "^5.2.0-beta1",
     "jwt-decode": "^3.1.2",
-    "node-sass": "4.14.1",
+    "node-sass": "^8.0.0",
     "qs": "^6.11.0",
     "react": "17.0.2",
     "react-content-loader": "^6.2.0",
@@ -39,7 +39,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
+    "test:watch": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
