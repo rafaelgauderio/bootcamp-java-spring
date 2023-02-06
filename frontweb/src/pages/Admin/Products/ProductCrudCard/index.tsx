@@ -38,7 +38,7 @@ const ProductCrudCard = ({ product, onDelete }: Props) => {
 
         requestBackend(config).then(() => {
           //console.log('Deletando produto por id: ' + productId);
-          onDelete(); // após deleter um produto rendezi a tela sem esse produto
+          onDelete(); // após deleter um produto renderiza a tela sem esse produto
           toast.success("Produdo Excluído com sucesso", {
             position: "top-right",
             autoClose: 4000,
