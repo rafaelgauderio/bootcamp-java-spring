@@ -1,4 +1,4 @@
-export const formatePrice = (price : number) => {
+export const formatPrice = (price : number) => {
 
     const parameters = {
         maximumFractionDigits: 2,
