@@ -27,9 +27,32 @@ describe("hasSomeRoles tests", () => {
         expect(resultOpe).toEqual(true);
         expect(resultOpeAdmin).toEqual(true);
 
-
-        
-
     })
+
+    it('hasSomeRoles should return false when user has given incorrect Role', () => {
+
+       jest.spyOn(TokenModule, "getTokenData").mockReturnValue( {
+        exp: 0,
+        user_name: "",
+        authorities:["ROLE_OPERATOR"]
+       });
+
+       const result = hasSomeRoles(["ROLE_ADMIN"]);
+       
+       expect(result).toEqual(false);  
+    })
+
+    it('hasSomeRoles should return false when user has given incorrect Role', () => {
+
+        jest.spyOn(TokenModule, "getTokenData").mockReturnValue( {
+         exp: 0,
+         user_name: "",
+         authorities:["ROLE_ADMIN"]
+        });
+ 
+        const result = hasSomeRoles(["ROLE_OPERATOR"]);
+        
+        expect(result).toEqual(false);  
+     })
 
 });
