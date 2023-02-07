@@ -3,9 +3,9 @@ import ButtonIcon from 'components/ButtonIcon';
 import { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { getTokenData } from 'util/auth';
 import { requestBackendLogin } from 'util/requests';
 import { saveAuthenticationData } from 'util/storage';
+import { getTokenData } from 'util/token';
 
 import './styles.css';
 
@@ -64,9 +64,9 @@ const Login = () => {
       <h1>LOGAR</h1>
       {hasLoginError && (
         <div className="alert alert-danger text-center">
-          Erro ao tentar realizar Login!<br></br>  
-          Usuário ou senha inválidos                  
-       </div>
+          Erro ao tentar realizar Login!<br></br>
+          Usuário ou senha inválidos
+        </div>
       )}
       <form onSubmit={handleSubmit(functionOnSubmit)}>
         <div className="mb-4">
@@ -87,9 +87,8 @@ const Login = () => {
               },
             })}
             type="text"
-            className={`form-control base-input ${
-              errors.username ? 'is-invalid' : ''
-            }`}
+            className={`form-control base-input ${errors.username ? 'is-invalid' : ''
+              }`}
             placeholder="Email"
             name="username"
           />
@@ -111,9 +110,8 @@ const Login = () => {
               },
             })}
             type="password"
-            className={`form-control base-input ${
-              errors.password ? 'is-invalid' : ''
-            }`}
+            className={`form-control base-input ${errors.password ? 'is-invalid' : ''
+              }`}
             placeholder="Senha"
             name="password"
           />
