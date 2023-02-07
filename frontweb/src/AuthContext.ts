@@ -1,21 +1,21 @@
 import { createContext } from 'react';
-import { TokenData } from 'util/auth';
+import { TokenData } from 'util/token';
 
 
 export type AuthContextData = {
-  authenticated: boolean;
-  tokenData?: TokenData; // tokenData é um parâmetro opcional
+    authenticated: boolean;
+    tokenData?: TokenData; // tokenData é um parâmetro opcional
 };
 
 export type AuthContextType = {
     authContextData: AuthContextData;
-    setAuthContextData: (authContextData: AuthContextData) =>  void;
+    setAuthContextData: (authContextData: AuthContextData) => void;
 }
 
 // função para criar o contexto global
-export const AuthContext = createContext<AuthContextType> ({
+export const AuthContext = createContext<AuthContextType>({
     // valor inicial de autenticação é falso 
-    authContextData : {
+    authContextData: {
         authenticated: false,
     },
     setAuthContextData: () => null,

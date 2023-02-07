@@ -6,8 +6,9 @@ import history from 'util/history';
 import { Link, NavLink } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from 'AuthContext';
-import { getTokenData, isUserAuthenticated } from 'util/auth';
+import { isUserAuthenticated } from 'util/auth';
 import { removeAuthenticationData } from 'util/storage';
+import { getTokenData } from 'util/token';
 
 const NavBar = () => {
   // referência apontada para o contexto global

@@ -2,7 +2,8 @@ import { ReactComponent as ImagemPrincipal } from 'assets/images/main-image.svg'
 import ButtonIcon from 'components/ButtonIcon';
 import TestChildren from 'components/TestChildren';
 import { Link } from 'react-router-dom';
-import { getTokenData, hasSomeRoles, isUserAuthenticated } from 'util/auth';
+import { hasSomeRoles, isUserAuthenticated } from 'util/auth';
+import { getTokenData } from 'util/token';
 import './styles.css';
 
 const Tests = () => {
