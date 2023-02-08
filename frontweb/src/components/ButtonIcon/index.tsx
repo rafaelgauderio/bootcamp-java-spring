@@ -12,7 +12,7 @@ const ButtonIcon = ({text} : Props ) => {
           <h6>{text}</h6>
         </button>      
       <div className="btn-icon-container">
-        <SearchIcon></SearchIcon>
+        <SearchIcon data-testid="search-icon"></SearchIcon>
       </div>
     </div>
   );
