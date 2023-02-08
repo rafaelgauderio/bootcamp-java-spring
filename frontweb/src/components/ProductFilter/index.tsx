@@ -88,7 +88,7 @@ const ProductFilter = ( {onSubmitFilter} : Props) => {
               )}
             />
           </div>
-          <button onClick={handleFormClear} className="btn btn-outline-secondary btn-product-filter-clear">Limpar <span className="btn-product-filter-search">Busca</span></button>
+          <button onClick={handleFormClear} className="btn btn-outline-warning btn-product-filter-clear">Limpar <span className="btn-product-filter-search">Busca</span></button>
         </div>
       </form>
     </div>
