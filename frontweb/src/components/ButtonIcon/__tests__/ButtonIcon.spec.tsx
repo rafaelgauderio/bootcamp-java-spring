@@ -15,4 +15,5 @@ it("ButtonIcon should render button with informed text", () => {
     // Assert
     // procurar na DOM o elemento que tem o conteudo da variável textButton
     expect(screen.getByText(textButton)).toBeInTheDocument();
+    expect(screen.getByTestId("search-icon")).toBeInTheDocument(); // selecionado o icone pelo metadadado test-dataid
 });
