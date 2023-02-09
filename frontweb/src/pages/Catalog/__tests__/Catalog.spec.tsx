@@ -2,7 +2,22 @@ import { screen, render, waitFor } from "@testing-library/react";
 import { Router } from "react-router-dom";
 import Catalog from "..";
 import history from "util/history";
-import { afterWrite } from "@popperjs/core";
+import { serverBackend } from "./settings";
+
+
+// chamando o servidor mockando para não depender do backend
+beforeAll( () => {
+    serverBackend.listen();
+});
+
+afterEach( () => {
+    serverBackend.resetHandlers()
+});
+
+afterAll ( () => {
+    serverBackend.close();
+});
+
 
 
 it("Catalog should render Catalog with no products", () => {
@@ -34,6 +49,7 @@ it("Catalog should render Catalog with products", async () => {
     await waitFor( () => {
         expect(screen.getByText("The Lord of the Rings"));
         expect(screen.getByText("Macbook Pro"));
+        expect(screen.getByText("PC Gamer"));
     });
     
 
