@@ -78,7 +78,7 @@
     transform: scale(1.15);
   }
 
-  li:hover {
+  .main-nav li:hover {
     transform: scale(1.2);   
   }
 }
