@@ -19,7 +19,7 @@ const ProductCrudCard = ({ product, onDelete }: Props) => {
   const handleDelete = (productId: number) => {
     Swal.fire({
       title: '<strong>EXCLUSÃO DE PRODUTO</strong>',
-      icon: 'warning',
+      icon: 'question',
       html: '<p>Excluir um produto é uma operação que não poderá ser desfeita</p>',
       showCloseButton: true,
       showCancelButton: true,

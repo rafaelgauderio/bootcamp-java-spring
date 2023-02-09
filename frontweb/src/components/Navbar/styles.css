@@ -18,7 +18,11 @@
 }
 
 .main-menu a:hover {
-  color: white;
+  color: white; 
+  background-color:#33469b; 
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: 700;
 }
 
 .main-menu a.active {
@@ -72,5 +76,9 @@
 
   .link-login:hover {
     transform: scale(1.15);
+  }
+
+  .main-nav li:hover {
+    transform: scale(1.2);   
   }
 }

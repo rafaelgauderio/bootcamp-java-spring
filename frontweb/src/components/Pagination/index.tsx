@@ -31,13 +31,13 @@ const Pagination = ({ pageCount, range, forcePage, onChange }: Props) => {
       // pegar o número de página alterada no ReactPaginate
       // if ternário para tratar caso do objeto onChange ser undefined
       previousLabel={
-        <div className="pagination-arrow-container">
+        <div className="pagination-arrow-container" data-testid="arrow-previous">
           <ArrowIcon />
         </div>
       }
       nextLabel={
         <div className="pagination-arrow-container">
-          <ArrowIcon />
+          <ArrowIcon data-testid="arrow-next" />
         </div>
       }
     />
