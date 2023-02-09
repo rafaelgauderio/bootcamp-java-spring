@@ -72,7 +72,7 @@ const Form = () => {
 
     Swal.fire({
       title: '<strong>INSERÇÃO/EDIÇÃO DE PRODUTO</strong>',
-      icon: 'info',
+      icon: 'question',
       html: '<p>Confirma a inserção/edição do produto</p>',
       showCloseButton: true,
       showCancelButton: true,
