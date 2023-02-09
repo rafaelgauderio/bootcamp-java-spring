@@ -1,5 +1,7 @@
 import { screen, render } from "@testing-library/react";
 import Pagination from "..";
+import userEvent from "@testing-library/user-event";
+import { isRegularExpressionLiteral } from "typescript";
 
 
 describe("Paginations tests", () => {
@@ -27,10 +29,74 @@ describe("Paginations tests", () => {
         expect(screen.getByText("4")).toBeInTheDocument;
         expect(screen.getByText("4")).not.toHaveClass("pagination-link-active");
 
-        expect(screen.getByText("5")).toBeInTheDocument;  
+        expect(screen.getByText("5")).toBeInTheDocument;
         expect(screen.getByText("5")).not.toHaveClass("pagination-link-active");
 
         // número 6 não deve aparecer, queryBy não lança exeção ao não encontar o texto              
-        expect(screen.queryByText("6")).not.toBeInTheDocument;    
+        expect(screen.queryByText("6")).not.toBeInTheDocument;
     });
+
+    it("next arrow should call onChange to the next page", () => {
+
+        const range = 5; // número de bolas do pagination;
+        const pageCount = 5;
+        const onChange = jest.fn();
+
+
+        render(
+            <Pagination
+                range={range}
+                pageCount={pageCount}
+                onChange={onChange} />
+        );
+
+        const next = screen.getByTestId("arrow-next");
+        userEvent.click(next);
+
+        expect(onChange).toHaveBeenCalled();
+        expect(onChange).toBeCalledWith(1) ; // começa no zero a contagem das páginas, next = 1
+
+    });
+
+    it("next arrow should call onChange to the previous page", () => {
+
+        const range = 5;
+        const pageCount = 5;
+        const onChange = jest.fn();
+        const forcePage = 2;
+
+        render(
+            <Pagination
+            forcePage={forcePage}
+                range={range}
+                pageCount={pageCount}
+                onChange={onChange} />
+        );
+
+        const previous = screen.getByTestId("arrow-previous");
+        userEvent.click(previous);        
+
+        expect(onChange).toHaveBeenCalled();
+        // para que a bolinha do previous estaja habilitada, tem que ser a partir da página 2
+        // forçar ir para a página 2 e depois voltar para 1 no click previous
+        expect(onChange).toBeCalledWith(1) ; 
+
+    });
+
+    it("page link should call onChange", () => {
+
+
+        const range = 4;
+        const pageCount=4;
+        const onChange = jest.fn();
+
+        render (
+            <Pagination range={range} pageCount={pageCount} onChange={onChange}/>            
+        ); 
+
+        // a pagina interna é um número a menos do que mostra, se clincar no texto exibido 3 internamento é a página 2
+        userEvent.click(screen.getByText("3"));
+        expect(onChange).toHaveBeenCalledWith(2);
+    })    
+
 });
