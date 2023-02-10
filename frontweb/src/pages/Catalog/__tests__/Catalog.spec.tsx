@@ -6,15 +6,15 @@ import { serverBackend } from "./settings";
 
 
 // chamando o servidor mockando para não depender do backend
-beforeAll( () => {
+beforeAll(() => {
     serverBackend.listen();
 });
 
-afterEach( () => {
+afterEach(() => {
     serverBackend.resetHandlers()
 });
 
-afterAll ( () => {
+afterAll(() => {
     serverBackend.close();
 });
 
@@ -22,7 +22,7 @@ afterAll ( () => {
 
 it("Catalog should render Catalog with no products", () => {
 
-    render (
+    render(
         <Router history={history}>
             <Catalog />
         </Router>
@@ -35,7 +35,7 @@ it("Catalog should render Catalog with no products", () => {
 
 it("Catalog should render Catalog with products", async () => {
 
-    render (
+    render(
         <Router history={history}>
             <Catalog />
         </Router>
@@ -46,11 +46,11 @@ it("Catalog should render Catalog with products", async () => {
     // a exibição dos produtos depende de uma requisição ao backend. A requisição é assincrona.
     // Senão houverem espeficicações assincronas, os testes vão pegar apenas dados da renderização imediata
     // agora vai esperar o resultado da função assincrona para continuar a executar o teste
-    await waitFor( () => {
+    await waitFor(() => {
         expect(screen.getByText("The Lord of the Rings"));
         expect(screen.getByText("Macbook Pro"));
         expect(screen.getByText("PC Gamer"));
     });
-    
+
 
 })

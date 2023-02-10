@@ -1,10 +1,11 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { Router, useParams } from "react-router-dom";
 import Form from "../Form";
 import history from "util/history";
 import userEvent from "@testing-library/user-event";
 import { backendServer } from "./settings";
 import selectEvent from "react-select-event";
+import { ToastContainer } from "react-toastify";
 
 beforeAll(() => backendServer.listen());
 afterEach(() => backendServer.resetHandlers());
@@ -31,6 +32,7 @@ describe("Form create Product tests", () => {
 
         render(
             <Router history={history}>
+                <ToastContainer />
                 <Form />
             </Router>
 
@@ -44,7 +46,7 @@ describe("Form create Product tests", () => {
 
         // selecionado botão do formulario no html
         // regex para ignorar uppercase ou lowercase
-        const submitButton = screen.getByRole("button", {name: /salvar/i});
+        const submitButton = screen.getByRole("button", { name: /salvar/i });
 
         // lista de matchers, pois pode ter mais de uma categoria
         // requisição é assincrona, tem que ficar dentro de um await
@@ -55,11 +57,21 @@ describe("Form create Product tests", () => {
         userEvent.type(inputName, "PC Gamer");
         userEvent.type(inputPrice, "1200.90");
         userEvent.type(inputImgURL, "ttps://raw.githubusercontent.com/devsuerior/dscatalog-resources/master/backend/img/1-big.jpg");
-        userEvent.type(inputDescription, "Computador Games com placa de vídeo aceladora");
+        userEvent.type(inputDescription, "Computador Gamer com placa de vídeo aceladora");
 
         // simulando o click no botão SALVAR
         userEvent.click(submitButton);
-        
+
+        // requisicao de salvar um produto é assincrona
+        // testando o aviso toast
+
+        /*
+        await waitFor(() => {
+            const toastElementWarning = screen.getByText("Produto criado ou editado com sucesso");
+            expect(toastElementWarning).toBeInTheDocument();
+        });
+        */
+
     });
 
 });

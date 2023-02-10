@@ -95,6 +95,13 @@ const Form = () => {
         requestBackend(config).then((resposta) => {
           // detro do then só executa se tiver resposta sucess (200) do backend
           // após salvar direcinar para a rota de produtos
+
+          Swal.fire(
+            'SUCESSO',
+            'Produto criado ou editado com sucesso',
+            'success'
+          );
+
           toast.success("Produto criado ou editado com sucesso", {
             position: "top-right",
             autoClose: 4000,
@@ -106,11 +113,7 @@ const Form = () => {
             theme: "colored",
           });
           history.push('/admin/products');
-          Swal.fire(
-            'SUCESSO',
-            'Produto criado ou editado com sucesso',
-            'success'
-          );
+
         })
           .catch(() => {
             toast.error("Erro ao tentar cadastrar produto!");
