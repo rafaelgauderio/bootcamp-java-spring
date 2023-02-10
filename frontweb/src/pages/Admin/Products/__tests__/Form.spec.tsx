@@ -42,16 +42,24 @@ describe("Form create Product tests", () => {
         const inputDescription = screen.getByTestId("description");
         var categoriesSelect = screen.getByLabelText("Categorias do Produto");
 
+        // selecionado botão do formulario no html
+        // regex para ignorar uppercase ou lowercase
+        const submitButton = screen.getByRole("button", {name: /salvar/i});
+
+        // lista de matchers, pois pode ter mais de uma categoria
+        // requisição é assincrona, tem que ficar dentro de um await
+        await
+            selectEvent.select(categoriesSelect, ["Computadores", "Livros", "Eletrônicos"]);
+
         // fazendo simulações de digitar nos campos de input
         userEvent.type(inputName, "PC Gamer");
         userEvent.type(inputPrice, "1200.90");
         userEvent.type(inputImgURL, "ttps://raw.githubusercontent.com/devsuerior/dscatalog-resources/master/backend/img/1-big.jpg");
         userEvent.type(inputDescription, "Computador Games com placa de vídeo aceladora");
 
-        // lista de matchers, pois pode ter mais de uma categoria
-        // requisição é assincrona, tem que ficar dentro de um await
-        await
-            selectEvent.select(categoriesSelect, ["Computadores", "Livros", "Eletrônicos"]);
+        // simulando o click no botão SALVAR
+        userEvent.click(submitButton);
+        
     });
 
 });
