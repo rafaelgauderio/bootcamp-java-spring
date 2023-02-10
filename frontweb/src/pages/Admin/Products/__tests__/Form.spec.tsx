@@ -3,6 +3,12 @@ import { Router, useParams } from "react-router-dom";
 import Form from "../Form";
 import history from "util/history";
 import userEvent from "@testing-library/user-event";
+import { backendServer } from "./settings";
+import selectEvent from "react-select-event";
+
+beforeAll(() => backendServer.listen());
+afterEach(() => backendServer.resetHandlers());
+afterAll(() => backendServer.close());
 
 // mockando o react-router-dom
 jest.mock("react-router-dom", () => ({
@@ -21,7 +27,7 @@ beforeEach(() => {
 describe("Form create Product tests", () => {
 
 
-    it("should render Form component and select input fields", () => {
+    it("should render Form component and select input fields", async () => {
 
         render(
             <Router history={history}>
@@ -41,6 +47,11 @@ describe("Form create Product tests", () => {
         userEvent.type(inputPrice, "1200.90");
         userEvent.type(inputImgURL, "ttps://raw.githubusercontent.com/devsuerior/dscatalog-resources/master/backend/img/1-big.jpg");
         userEvent.type(inputDescription, "Computador Games com placa de vídeo aceladora");
+
+        // lista de matchers, pois pode ter mais de uma categoria
+        // requisição é assincrona, tem que ficar dentro de um await
+        await
+            selectEvent.select(categoriesSelect, ["Computadores", "Livros", "Eletrônicos"]);
     });
 
 });
