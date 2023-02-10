@@ -95,6 +95,13 @@ const Form = () => {
         requestBackend(config).then((resposta) => {
           // detro do then só executa se tiver resposta sucess (200) do backend
           // após salvar direcinar para a rota de produtos
+
+          Swal.fire(
+            'SUCESSO',
+            'Produto criado ou editado com sucesso',
+            'success'
+          );
+
           toast.success("Produto criado ou editado com sucesso", {
             position: "top-right",
             autoClose: 4000,
@@ -106,11 +113,7 @@ const Form = () => {
             theme: "colored",
           });
           history.push('/admin/products');
-          Swal.fire(
-            'SUCESSO',
-            'Produto criado ou editado com sucesso',
-            'success'
-          );
+
         })
           .catch(() => {
             toast.error("Erro ao tentar cadastrar produto!");
@@ -127,7 +130,7 @@ const Form = () => {
     toast.info("Operação cancelada", {
       position: "top-right",
       autoClose: 2000,
-      hideProgressBar: false,      
+      hideProgressBar: false,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
@@ -166,6 +169,7 @@ const Form = () => {
                     }`}
                   placeholder="Nome do Produto"
                   name="name"
+                  data-testid="name"
                 />
                 <div className="invalid-feedback d-block">
                   {errors.name?.message}
@@ -173,6 +177,7 @@ const Form = () => {
               </div>
 
               <div className="margin-botton-25px">
+                <label htmlFor="categories" className="d-none">Categorias do Produto</label>
                 <Controller
                   name="categories"
                   control={control}
@@ -183,11 +188,12 @@ const Form = () => {
                       options={selectCategories}
                       isMulti={true}
                       classNamePrefix="product-crud-select"
-                      placeholder="Categoria do Produto"
+                      placeholder="Categorias do Produto"
                       getOptionLabel={(categoria: Category) => categoria.name}
                       getOptionValue={(categoria: Category) =>
                         String(categoria.id)
                       }
+                      inputId="categories"
                     />
                   )}
                 />
@@ -217,6 +223,7 @@ const Form = () => {
                       decimalSeparator={"," || "."}
                       value={field.value}
                       onValueChange={field.onChange}
+                      data-testid="price"
                     />
                   )}
                 />
@@ -247,6 +254,7 @@ const Form = () => {
                     }`}
                   placeholder="Link da imagem do Produto"
                   name="imgURL"
+                  data-testid="imgURL"
                 />
                 <div className="invalid-feedback d-block">
                   {errors.imgURL?.message}
@@ -266,6 +274,7 @@ const Form = () => {
                   name="description"
                   id=""
                   placeholder="Descrição do Produto"
+                  data-testid="description"
                 ></textarea>
                 <div className="invalid-feedback d-block">
                   {errors.description?.message}
