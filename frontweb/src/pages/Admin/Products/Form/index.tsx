@@ -127,7 +127,7 @@ const Form = () => {
     toast.info("Operação cancelada", {
       position: "top-right",
       autoClose: 2000,
-      hideProgressBar: false,      
+      hideProgressBar: false,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
@@ -174,6 +174,7 @@ const Form = () => {
               </div>
 
               <div className="margin-botton-25px">
+                <label htmlFor="categories" className="d-none">Categorias do Produto</label>
                 <Controller
                   name="categories"
                   control={control}
@@ -184,11 +185,12 @@ const Form = () => {
                       options={selectCategories}
                       isMulti={true}
                       classNamePrefix="product-crud-select"
-                      placeholder="Categoria do Produto"
+                      placeholder="Categorias do Produto"
                       getOptionLabel={(categoria: Category) => categoria.name}
                       getOptionValue={(categoria: Category) =>
                         String(categoria.id)
                       }
+                      inputId="categories"
                     />
                   )}
                 />

@@ -28,11 +28,12 @@ describe("Form create Product tests", () => {
             </Router>
 
         );
-        
+
         const inputName = screen.getByTestId("name");
         const inputPrice = screen.getByTestId("price");
         const inputImgURL = screen.getByTestId("imgURL");
         const inputDescription = screen.getByTestId("description");
+        var categoriesSelect = screen.getByLabelText("Categorias do Produto");
     });
 
 });
