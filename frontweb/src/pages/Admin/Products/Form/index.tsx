@@ -166,6 +166,7 @@ const Form = () => {
                     }`}
                   placeholder="Nome do Produto"
                   name="name"
+                  data-testid="name"
                 />
                 <div className="invalid-feedback d-block">
                   {errors.name?.message}
@@ -217,6 +218,7 @@ const Form = () => {
                       decimalSeparator={"," || "."}
                       value={field.value}
                       onValueChange={field.onChange}
+                      data-testid="price"
                     />
                   )}
                 />
@@ -247,6 +249,7 @@ const Form = () => {
                     }`}
                   placeholder="Link da imagem do Produto"
                   name="imgURL"
+                  data-testid="imgURL"
                 />
                 <div className="invalid-feedback d-block">
                   {errors.imgURL?.message}
@@ -266,6 +269,7 @@ const Form = () => {
                   name="description"
                   id=""
                   placeholder="Descrição do Produto"
+                  data-testid="description"
                 ></textarea>
                 <div className="invalid-feedback d-block">
                   {errors.description?.message}

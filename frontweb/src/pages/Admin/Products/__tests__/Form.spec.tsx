@@ -20,7 +20,7 @@ beforeEach(() => {
 describe("Form create Product tests", () => {
 
 
-    it("should render Form component", () => {
+    it("should render Form component and select input fields", () => {
 
         render(
             <Router history={history}>
@@ -28,6 +28,11 @@ describe("Form create Product tests", () => {
             </Router>
 
         );
+        
+        const inputName = screen.getByTestId("name");
+        const inputPrice = screen.getByTestId("price");
+        const inputImgURL = screen.getByTestId("imgURL");
+        const inputDescription = screen.getByTestId("description");
     });
 
 });
