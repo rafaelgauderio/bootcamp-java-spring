@@ -199,7 +199,7 @@ const Form = () => {
                 />
                 {errors.categories && (
                   <div className="invalid-feedback d-block">
-                    <p>Campo Obrigatório</p>
+                    <p>Obrigatório selecionar pelo menos uma Categoria</p>
                   </div>
                 )}
               </div>

@@ -78,21 +78,45 @@ describe("Form create Product tests", () => {
         // simulando o click no botão SALVAR
         userEvent.click(submitButton);
 
-       /*
-        // requisicao de salvar um produto é assincrona
-        // testando o aviso toast
-        // Está falhando o test do toast porque tem está capturando a mensagem do confirmação do sweet alert2    
-        //window.confirm = jest.fn(() => true)
-        await waitFor(() => {
-            const toastElementWarning = screen.getByText("Produto criado ou editado com sucesso");
-            expect(toastElementWarning).toBeInTheDocument();
-        });
+        /*
+         // requisicao de salvar um produto é assincrona
+         // testando o aviso toast
+         // Está falhando o test do toast porque tem está capturando a mensagem do confirmação do sweet alert2    
+         //window.confirm = jest.fn(() => true)
+         await waitFor(() => {
+             const toastElementWarning = screen.getByText("Produto criado ou editado com sucesso");
+             expect(toastElementWarning).toBeInTheDocument();
+         });
+         
+         // testando o redirecionamento        
+         // também falha devido a falta de confirma do swatt alert
+         //expect(history.location.pathname).toEqual("/admin/products");
         
-        // testando o redirecionamento        
-        // também falha devido a falta de confirma do swatt alert
-        //expect(history.location.pathname).toEqual("/admin/products");
-       
-        */
+         */
+
+    });
+
+    it("should show five error validation messages when clicking on submit without filling the input fields", async () => {
+
+        render(
+            <Router history={history}>
+                <Form />
+            </Router>
+
+        );
+
+        const submitButton = screen.getByRole("button", { name: /salvar/i });
+
+        userEvent.click(submitButton);
+
+        await waitFor(() => {
+            const errorsMessages = screen.getAllByText("Campo obrigatório");
+            const errorCategoryMessage = screen.getByText("Obrigatório selecionar pelo menos uma Categoria");
+            //testando o tamanho de um array
+            expect(errorsMessages).toHaveLength(4);            
+        });
+
+
 
     });
 
