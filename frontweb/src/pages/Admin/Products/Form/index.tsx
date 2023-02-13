@@ -69,7 +69,7 @@ const Form = () => {
       ...formData, price: String(formData.price).replace(",", ".")
 
     }
-
+    
     Swal.fire({
       title: '<strong>INSERÇÃO/EDIÇÃO DE PRODUTO</strong>',
       icon: 'question',
@@ -148,7 +148,7 @@ const Form = () => {
     <div className="product-crud-container">
       <div className="base-card product-crud-form-card">
         <h1 className="product-crud-form-card-title">CADASTRAR PRODUTO</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} data-testid="product-form">
           <div className="row product-crud-inputs-container">
             <div className="col-lg-6 product-crud-inputs-left-container">
               <div className="margin-botton-25px">
@@ -199,7 +199,7 @@ const Form = () => {
                 />
                 {errors.categories && (
                   <div className="invalid-feedback d-block">
-                    <p>Campo Obrigatório</p>
+                    <p>Obrigatório selecionar pelo menos uma Categoria</p>
                   </div>
                 )}
               </div>
