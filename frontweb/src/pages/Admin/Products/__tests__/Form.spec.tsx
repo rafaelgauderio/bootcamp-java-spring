@@ -115,8 +115,51 @@ describe("Form create Product tests", () => {
             //testando o tamanho de um array
             expect(errorsMessages).toHaveLength(4);            
         });
+    });
 
+    it("should clear validation errors message when filling the input fields correctly", async () => {
 
+        render(
+            <Router history={history}>
+                <Form />
+            </Router>
+
+        );
+
+        const submitButton = screen.getByRole("button", { name: /salvar/i });
+
+        userEvent.click(submitButton);
+
+        await waitFor(() => {
+            const errorsMessages = screen.getAllByText("Campo obrigatório");
+            const errorCategoryMessage = screen.getByText("Obrigatório selecionar pelo menos uma Categoria");            
+            expect(errorsMessages).toHaveLength(4);            
+        });
+
+        const inputName = screen.getByTestId("name");
+        const inputPrice = screen.getByTestId("price");
+        const inputImgURL = screen.getByTestId("imgURL");
+        const inputDescription = screen.getByTestId("description");
+        var categoriesSelect = screen.getByLabelText("Categorias do Produto");
+       
+        await
+            selectEvent.select(categoriesSelect, ["Computadores", "Livros", "Eletrônicos"]);
+
+        // simulações de digitar nos campos de input
+        userEvent.type(inputName, "PC Gamer");
+        userEvent.type(inputPrice, "1200.90");
+        userEvent.type(inputImgURL, "https://raw.githubusercontent.com/devsuerior/dscatalog-resources/master/backend/img/1-big.jpg");
+        userEvent.type(inputDescription, "Computador Gamer com placa de vídeo aceladora");
+
+        // após preencher o formulário corretamente, testar se sumiram as mensagens de erro
+        await waitFor (() => {
+            const errorsMessages = screen.queryAllByText("Campo obrigatório");
+            const errorCategoryMessage = screen.queryAllByText("Obrigatório selecionar pelo menos uma Categoria");
+                  
+            // o vetor dessas mensagens de erro deve ter comprimento zero se os input foram preenchidos corretamente
+            expect(errorsMessages).toHaveLength(0);
+            expect(errorCategoryMessage).toHaveLength(0);
+        })
 
     });
 
